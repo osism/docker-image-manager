@@ -8,6 +8,9 @@ set -x
 # BUILD_OPTS
 # REPOSITORY
 # VERSION
+# VERSION_AWX
+# RELEASE_OPENSTACK
+# RELEASE_LUMINOUS
 
 # Set default values
 
@@ -25,6 +28,9 @@ fi
 
 docker build \
     --build-arg "VERSION=$VERSION" \
+    --build-arg "VERSION_AWX=$VERSION_AWX" \
+    --build-arg "RELEASE_CEPH=$RELEASE_CEPH" \
+    --build-arg "RELEASE_OPENSTACK=$RELEASE_OPENSTACK" \
     --label "io.osism.${REPOSITORY#osism/}=$HASH_REPOSITORY" \
     --tag "$REPOSITORY:$VERSION" \
     --squash \

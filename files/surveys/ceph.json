@@ -1,0 +1,18 @@
+{
+  "name": "",
+  "description": "",
+  "spec": [
+    {
+      "question_name": "Playbook to run",
+      "question_description": "",
+      "required": true,
+      "type": "multiplechoice",
+      "variable": "playbook",
+      "min": null,
+      "max": null,
+      "default": "mons",
+      "choices": "mons\nmgrs\nosds\nmdss",
+      "new_question": true
+    }
+  ]
+}

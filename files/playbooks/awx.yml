@@ -1,0 +1,80 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Wait for the AWX API
+      uri:
+        url: "http://localhost:8052/api/v2/"
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
+
+    - name: Create osism organization
+      tower_organization:
+        name: osism
+
+    - name: Create osism inventory
+      tower_inventory:
+        name: osism
+        organization: osism
+
+    - name: Import inventory
+      shell:  awx-manage inventory_import --inventory-name osism --overwrite --overwrite-vars --source /opt/configuration/inventory/hosts
+
+    - name: Create projects
+      tower_project:
+        name: "{{ item.name }}"
+        organization: osism
+        scm_type: manual
+        local_path: "{{ item.name }}"
+        custom_virtualenv: "/var/lib/awx/venv/{{ item.virtualenv }}"
+      with_items:
+        - name: ceph
+          virtualenv: ceph
+        - name: generic
+          virtualenv: osism
+        - name: kolla
+          virtualenv: kolla
+
+    - name: Create vault credential
+      tower_credential:
+        name: vault
+        organization: osism
+        kind: vault
+        vault_password: password
+
+    - name: Create ssh credential
+      tower_credential:
+        name: ssh
+        organization: osism
+        kind: ssh
+
+    # NOTE: it is not possible to set the used username with the tower_credential module
+    - name: Set username/key for ssh credential
+      shell: |
+        tower-cli credential modify --name ssh --inputs '{ "username": "dragon", "ssh_key_data": "{{ lookup('file', '/opt/ansible/secrets/id_rsa.operator') }}" }'
+
+    - name: Create job templates
+      tower_job_template:
+        name: "{{ item.name }}"
+        project: "{{ item.project }}"
+        inventory: osism
+        job_type: run
+        playbook: site.yml
+        survey_enabled: yes
+        survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
+      with_items:
+        - name: ceph
+          project: ceph
+          survey: ceph
+        - name: generic
+          project: generic
+          survey: generic
+        - name: kolla
+          project: kolla
+          survey: kolla

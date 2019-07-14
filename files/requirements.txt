@@ -1,0 +1,5 @@
+cryptography
+paramiko
+redis
+requests
+psutil

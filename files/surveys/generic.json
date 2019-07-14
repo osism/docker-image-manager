@@ -1,0 +1,18 @@
+{
+  "name": "",
+  "description": "",
+  "spec": [
+    {
+      "question_name": "Playbook to run",
+      "question_description": "",
+      "required": true,
+      "type": "multiplechoice",
+      "variable": "playbook",
+      "min": null,
+      "max": null,
+      "default": "facts",
+      "choices": "facts\nresolvconf\nhosts\nhostname\nchrony\nconfiguration\noperator\nbootstrap",
+      "new_question": true
+    }
+  ]
+}

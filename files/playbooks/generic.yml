@@ -1,0 +1,3 @@
+---
+- name: "Run playbook {{ playbook }}"
+  import_playbook: "/opt/ansible/osism/awx-generic-{{ playbook }}.yml"
