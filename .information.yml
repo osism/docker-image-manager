@@ -1,2 +1,2 @@
 ---
-docker_image_name: template
+docker_image_name: awx

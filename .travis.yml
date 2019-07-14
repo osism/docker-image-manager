@@ -7,7 +7,7 @@ before_install:
 
 env:
   global:
-    - REPOSITORY=osism/template
+    - REPOSITORY=osism/awx
   matrix:
     - VERSION=latest
 

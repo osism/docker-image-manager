@@ -1,7 +1,7 @@
-# docker-template
+# docker-awx
 
-[![Build Status](https://travis-ci.org/osism/docker-template.svg?branch=master)](https://travis-ci.org/osism/docker-template)
-[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-osism%2Ftemplate-blue.svg)](https://hub.docker.com/r/osism/template/)
+[![Build Status](https://travis-ci.org/osism/docker-awx.svg?branch=master)](https://travis-ci.org/osism/docker-awx)
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-osism%2Fawx-blue.svg)](https://hub.docker.com/r/osism/awx/)
 
 License
 -------
