@@ -85,7 +85,7 @@ RUN yum -y remove cyrus-sasl-devel \
 
 RUN yum -y clean all
 
-RUN pip install ansible-tower-cli
+RUN pip3 install ansible-tower-cli
 
 USER 1000
 
