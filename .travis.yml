@@ -7,7 +7,7 @@ before_install:
 
 env:
   global:
-    - REPOSITORY=osism/awx
+    - REPOSITORY=osism/manager
   matrix:
     - VERSION=latest VERSION_AWX=latest RELEASE_CEPH=luminous RELEASE_OPENSTACK=rocky
 
