@@ -52,7 +52,6 @@ RUN yum -y install cyrus-sasl-devel \
   libxslt-devel \
   openldap-devel \
   postgresql-devel \
-  python-devel \
   python36-devel \
   nodejs \
   xmlsec1-devel \
@@ -79,7 +78,6 @@ RUN yum -y remove cyrus-sasl-devel \
   libxslt-devel \
   openldap-devel \
   postgresql-devel \
-  python-devel \
   python36-devel \
   nodejs \
   xmlsec1-devel \
