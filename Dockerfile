@@ -3,9 +3,9 @@ ARG VERSION_AWX
 ARG RELEASE_CEPH
 ARG RELEASE_OPENSTACK
 
-FROM osism/ceph-ansible:$RELEASE_CEPH-$VERSION as ceph-ansible
-FROM osism/kolla-ansible:$RELEASE_OPENSTACK-$VERSION as kolla-ansible
-FROM osism/osism-ansible:$VERSION as osism-ansible
+FROM quay.io/osism/ceph-ansible:$RELEASE_CEPH-$VERSION as ceph-ansible
+FROM quay.io/osism/kolla-ansible:$RELEASE_OPENSTACK-$VERSION as kolla-ansible
+FROM quay.io/osism/osism-ansible:$VERSION as osism-ansible
 
 FROM ansible/awx_web:$VERSION_AWX
 
