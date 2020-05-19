@@ -24,9 +24,16 @@ docker build \
     --build-arg "VERSION_AWX=$VERSION_AWX" \
     --build-arg "RELEASE_CEPH=$RELEASE_CEPH" \
     --build-arg "RELEASE_OPENSTACK=$RELEASE_OPENSTACK" \
-    --tag "$REPOSITORY:$VERSION" \
     --label "org.opencontainers.image.created=$CREATED" \
+    --label "org.opencontainers.image.documentation=https://docs.osism.de" \
+    --label "org.opencontainers.image.licenses=ASL 2.0" \
     --label "org.opencontainers.image.revision=$REVISION" \
+    --label "org.opencontainers.image.source=https://github.com/osism/docker-manager" \
+    --label "org.opencontainers.image.title=kolla-ansible" \
+    --label "org.opencontainers.image.url=https://www.osism.de" \
+    --label "org.opencontainers.image.vendor=Betacloud Solutions GmbH" \
     --label "org.opencontainers.image.version=$VERSION" \
     --squash \
+    --no-cache \
+    --tag "$REPOSITORY:$VERSION" \
     $BUILD_OPTS .
