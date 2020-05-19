@@ -9,7 +9,7 @@ env:
   global:
     - REPOSITORY=osism/manager
   matrix:
-    - VERSION=latest VERSION_AWX=latest RELEASE_CEPH=luminous RELEASE_OPENSTACK=rocky
+    - VERSION=latest VERSION_AWX=latest RELEASE_CEPH=nautilus RELEASE_OPENSTACK=train
 
 script:
   - bash scripts/build.sh
