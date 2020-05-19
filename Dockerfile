@@ -90,7 +90,7 @@ USER 1000
 VOLUME ["/opt/configuration"]
 CMD /run.sh
 
-LABEL "org.opencontainers.image.documentation"="https://docs.osism.io" \
+LABEL "org.opencontainers.image.documentation"="https://docs.osism.de" \
       "org.opencontainers.image.licenses"="ASL 2.0" \
       "org.opencontainers.image.source"="https://github.com/osism/docker-manager" \
       "org.opencontainers.image.url"="https://www.osism.de" \
