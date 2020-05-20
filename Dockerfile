@@ -67,7 +67,7 @@ RUN virtualenv -p python3 /var/lib/awx/venv/osism \
     && /var/lib/awx/venv/osism/bin/pip install -r /var/lib/awx/venv/requirements.txt \
     && /var/lib/awx/venv/osism/bin/pip install -r /opt/ansible/osism/requirements.txt
 
-RUN mv /etc/ansible/ansible.cfg/orig \
+RUN mv /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig \
     && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
 
 RUN python3 -m ara.setup.env > /opt/ansible/ara.env
