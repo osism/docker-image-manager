@@ -56,7 +56,7 @@
     # NOTE: it is not possible to set the used username with the tower_credential module
     - name: Set username/key for ssh credential
       shell: |
-        tower-cli credential modify --name ssh --inputs '{ "username": "dragon", "ssh_key_data": "{{ lookup('file', '/opt/ansible/secrets/id_rsa.operator') }}" }'
+        tower-cli credential modify --name ssh --inputs '{ "username": "dragon", "ssh_key_data": "{{ lookup('file', '/ansible/secrets/id_rsa.operator') }}" }'
 
     - name: Create job templates
       tower_job_template:
