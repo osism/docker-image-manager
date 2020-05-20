@@ -4,7 +4,6 @@
   gather_facts: false
 
   tasks:
-
     - name: Wait for the AWX API
       uri:
         url: "http://localhost:8052/api/v2/"
@@ -66,6 +65,7 @@
         inventory: osism
         job_type: run
         playbook: site.yml
+        credential: ssh
         survey_enabled: yes
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
       with_items:
