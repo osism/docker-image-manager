@@ -66,7 +66,8 @@
         job_type: run
         playbook: site.yml
         credential: ssh
-        survey_enabled: yes
+        fact_caching_enabled: true
+        survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
       with_items:
         - name: ceph
