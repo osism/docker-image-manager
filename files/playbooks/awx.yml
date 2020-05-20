@@ -79,3 +79,15 @@
         - name: kolla
           project: kolla
           survey: kolla
+
+    # NOTE: it is not possible to set the environment with the tower_job_template module
+    - name: Set environments
+      shell: |
+        tower-cli job_template modify --name {{ item.name }} --custom-virtualenv /var/lib/awx/venv/{{ item.virtualenv }}
+      with_items:
+        - name: ceph
+          virtualenv: ceph
+        - name: generic
+          virtualenv: osism
+        - name: kolla
+          virtualenv: kolla
