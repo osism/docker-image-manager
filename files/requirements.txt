@@ -1,3 +1,4 @@
+ara[server]
 cryptography
 paramiko
 redis
