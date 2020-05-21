@@ -3,6 +3,64 @@
   connection: local
   gather_facts: false
 
+  vars:
+    ceph_roles:
+      - clients
+      - dashboard
+      - facts
+      - fetch-keys
+      - iscsigws
+      - mdss
+      - mgrs
+      - mons
+      - nfss
+      - osds
+      - rbd-mirrors
+      - restapis
+      - rgws
+      - rolling_update
+
+    kolla_roles:
+      - aodh
+      - barbican
+      - ceilometer
+      - cinder
+      - cloudkitty
+      - common
+      - designate
+      - elasticsearch
+      - etcd
+      - facts
+      - glance
+      - gnocchi
+      - grafana
+      - haproxy
+      - heat
+      - horizon
+      - influxdb
+      - iscsi
+      - keystone
+      - kibana
+      - kuryr
+      - magnum
+      - manila
+      - mariadb
+      - memcached
+      - mistral
+      - multipathd
+      - neutron
+      - nova
+      - octavia
+      - openvswitch
+      - panko
+      - placement
+      - rabbitmq
+      - rally
+      - redis
+      - skydive
+      - watcher
+      - zun
+
   tasks:
     - name: Wait for the AWX API
       uri:
@@ -71,7 +129,7 @@
         tower-cli credential create --name="operator" --credential-type="Machine" --organization="default" --inputs=@/tmp/cred.yaml
         rm -f /tmp/cred.yaml
 
-    - name: Create job templates
+    - name: Create generic job templates
       tower_job_template:
         name: "{{ item.name|upper }}"
         project: "{{ item.project }}"
@@ -92,3 +150,27 @@
         - name: kolla
           project: kolla
           survey: kolla
+
+    - name: Create ceph job templates
+      tower_job_template:
+        name: "Ceph - {{ item }}"
+        project: ceph
+        inventory: default
+        job_type: run
+        playbook: "ceph-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ ceph_roles }}"
+
+    - name: Create kolla job templates
+      tower_job_template:
+        name: "Kolla - {{ item }}"
+        project: kolla
+        inventory: default
+        job_type: run
+        playbook: "kolla-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+        survey_enabled: true
+        survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
+      loop: "{{ kolla_roles }}"
