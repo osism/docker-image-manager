@@ -13,22 +13,22 @@
       retries: 60
       delay: 1
 
-    - name: Create osism organization
+    - name: Create default organization
       tower_organization:
-        name: osism
+        name: default
 
-    - name: Create osism inventory
+    - name: Create default inventory
       tower_inventory:
-        name: osism
-        organization: osism
+        name: default
+        organization: default
 
     - name: Import inventory
-      shell:  awx-manage inventory_import --inventory-name osism --overwrite --overwrite-vars --source /opt/configuration/inventory/hosts
+      shell:  awx-manage inventory_import --inventory-name default --overwrite --overwrite-vars --source /opt/configuration/inventory/hosts
 
     - name: Create projects
       tower_project:
         name: "{{ item.name }}"
-        organization: osism
+        organization: default
         scm_type: manual
         local_path: "{{ item.name }}"
         custom_virtualenv: "/var/lib/awx/venv/{{ item.virtualenv }}"
@@ -43,14 +43,14 @@
     - name: Create vault credential
       tower_credential:
         name: vault
-        organization: osism
+        organization: default
         kind: vault
         vault_password: password
 
     - name: Create ssh credential
       tower_credential:
         name: ssh
-        organization: osism
+        organization: default
         kind: ssh
 
     # NOTE: it is not possible to set the used username with the tower_credential module
@@ -62,7 +62,7 @@
       tower_job_template:
         name: "{{ item.name }}"
         project: "{{ item.project }}"
-        inventory: osism
+        inventory: default
         job_type: run
         playbook: site.yml
         credential: ssh
