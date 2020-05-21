@@ -35,7 +35,7 @@
       with_items:
         - name: ceph
           virtualenv: ceph
-        - name: generic
+        - name: osism
           virtualenv: osism
         - name: kolla
           virtualenv: kolla
@@ -73,9 +73,9 @@
         - name: ceph
           project: ceph
           survey: ceph
-        - name: generic
-          project: generic
-          survey: generic
+        - name: osism
+          project: osism
+          survey: osism
         - name: kolla
           project: kolla
           survey: kolla
@@ -87,7 +87,7 @@
       with_items:
         - name: ceph
           virtualenv: ceph
-        - name: generic
+        - name: osism
           virtualenv: osism
         - name: kolla
           virtualenv: kolla
