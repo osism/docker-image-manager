@@ -77,11 +77,11 @@
 
     - name: Create job templates
       tower_job_template:
-        name: "{{ item.name }}"
+        name: "{{ item.name|upper }}"
         project: "{{ item.project }}"
         inventory: default
         job_type: run
-        playbook: site.yml
+        playbook: awx.yml
         credential: ssh
         fact_caching_enabled: true
         survey_enabled: true

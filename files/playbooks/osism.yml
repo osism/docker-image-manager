@@ -1,3 +1,3 @@
 ---
-- name: "Run playbook {{ playbook }}"
-  import_playbook: "/opt/ansible/osism/awx-generic-{{ playbook }}.yml"
+- name: "Run osism playbook {{ playbook }} in environment {{ environment }}"
+  import_playbook: "/opt/ansible/osism/{{ environment }}-{{ playbook }}.yml"

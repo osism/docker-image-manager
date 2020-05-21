@@ -14,9 +14,9 @@ ARG RELEASE_OPENSTACK
 
 USER root
 
-ADD files/playbooks/ceph.yml /var/lib/awx/projects/ceph/site.yml
-ADD files/playbooks/osism.yml /var/lib/awx/projects/osism/site.yml
-ADD files/playbooks/kolla.yml /var/lib/awx/projects/kolla/site.yml
+ADD files/playbooks/ceph.yml /opt/ansible/ceph/awx.yml
+ADD files/playbooks/osism.yml /opt/ansible/osism/awx.yml
+ADD files/playbooks/kolla.yml /opt/ansible/kolla/awx.yml
 
 ADD files/playbooks/awx.yml /opt/ansible/awx.yml
 
