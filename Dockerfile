@@ -44,6 +44,27 @@ RUN mv /opt/ansible/ceph/galaxy/* /opt/ansible/ceph/roles \
     && mv /opt/ansible/kolla/galaxy/* /opt/ansible/kolla/roles \
     && mv /opt/ansible/osism/galaxy/* /opt/ansible/osism/roles
 
+RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/kolla/group_vars/all/yyy-configuration.yml \
+    && ln -s /opt/configuration/environments/images.yml /opt/ansible/kolla/group_vars/all/yyy-images.yml \
+    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/kolla/group_vars/all/yyy-secrets.yml \
+    && ln -s /opt/configuration/environments/kolla/configuration.yml /opt/ansible/kolla/group_vars/all/zzz-configuration.yml \
+    && ln -s /opt/configuration/environments/kolla/images.yml /opt/ansible/kolla/group_vars/all/zzz-images.yml \
+    && ln -s /opt/configuration/environments/kolla/secrets.yml /opt/ansible/kolla/group_vars/all/zzz-secrets.yml
+
+RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/ceph/group_vars/all/yyy-configuration.yml \
+    && ln -s /opt/configuration/environments/images.yml /opt/ansible/ceph/group_vars/all/yyy-images.yml \
+    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/ceph/group_vars/all/yyy-secrets.yml \
+    && ln -s /opt/configuration/environments/ceph/configuration.yml /opt/ansible/ceph/group_vars/all/zzz-configuration.yml \
+    && ln -s /opt/configuration/environments/ceph/images.yml /opt/ansible/ceph/group_vars/all/zzz-images.yml \
+    && ln -s /opt/configuration/environments/ceph/secrets.yml /opt/ansible/ceph/group_vars/all/zzz-secrets.yml
+
+RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/osism/group_vars/all/yyy-configuration.yml \
+    && ln -s /opt/configuration/environments/images.yml /opt/ansible/osism/group_vars/all/yyy-images.yml \
+    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/osism/group_vars/all/yyy-secrets.yml \
+    && ln -s /opt/configuration/environments/generic/configuration.yml /opt/ansible/osism/group_vars/all/zzz-configuration.yml \
+    && ln -s /opt/configuration/environments/generic/images.yml /opt/ansible/osism/group_vars/all/zzz-images.yml \
+    && ln -s /opt/configuration/environments/generic/secrets.yml /opt/ansible/osism/group_vars/all/zzz-secrets.yml
+
 RUN chown -R 1000:1000 /opt/ansible
 
 RUN yum -y install cyrus-sasl-devel \
