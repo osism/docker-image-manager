@@ -57,16 +57,20 @@
         - name: kolla
           virtualenv: kolla
 
-    - name: Create ssh credential
-      tower_credential:
-        name: ssh
-        organization: default
-        kind: ssh
-
     # NOTE: it is not possible to set the used username with the tower_credential module
+    #
+    #       https://github.com/ansible/tower-cli/issues/452
     - name: Set username/key for ssh credential
       shell: |
-        tower-cli credential modify --name ssh --inputs '{ "username": "dragon", "ssh_key_data": "{{ lookup('file', '/ansible/secrets/id_rsa.operator') }}" }'
+        cat <<EOF > /tmp/cred.yaml
+        ---
+        username: cred
+        ssh_key_data: |
+        `awk '{printf "      %s\n", $0}' < /ansible/secrets/id_rsa.operator`
+        EOF
+        exit
+        tower-cli credential create --name="ssh" --credential-type="Machine" --organization="default" --inputs=@/tmp/cred.yaml
+        rm -f /tmp/cred.yaml
 
     - name: Create job templates
       tower_job_template:
