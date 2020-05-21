@@ -66,10 +66,9 @@
         ---
         username: cred
         ssh_key_data: |
-        `awk '{printf "      %s\n", $0}' < /ansible/secrets/id_rsa.operator`
+        $(awk '{printf "      %s\n", $0}' < /ansible/secrets/id_rsa.operator)
         EOF
-        exit
-        tower-cli credential create --name="ssh" --credential-type="Machine" --organization="default" --inputs=@/tmp/cred.yaml
+        tower-cli credential create --name="operator" --credential-type="Machine" --organization="default" --inputs=@/tmp/cred.yaml
         rm -f /tmp/cred.yaml
 
     - name: Create job templates
@@ -79,7 +78,7 @@
         inventory: default
         job_type: run
         playbook: awx.yml
-        credential: ssh
+        credential: operator
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
