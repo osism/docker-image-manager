@@ -9,6 +9,9 @@ FROM quay.io/osism/osism-ansible:$VERSION as osism-ansible
 
 FROM ansible/awx_web:$VERSION_AWX
 
+ARG RELEASE_CEPH
+ARG RELEASE_OPENSTACK
+
 USER root
 
 ADD files/playbooks/ceph.yml /var/lib/awx/projects/ceph/site.yml
@@ -35,6 +38,8 @@ COPY --from=kolla-ansible /requirements.txt /opt/ansible/kolla/requirements.txt
 COPY --from=osism-ansible /ansible/ /opt/ansible/osism/
 COPY --from=osism-ansible /requirements.txt /opt/ansible/osism/requirements.txt
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN mv /opt/ansible/ceph/galaxy/* /opt/ansible/ceph/roles \
     && mv /opt/ansible/kolla/galaxy/* /opt/ansible/kolla/roles \
     && mv /opt/ansible/osism/galaxy/* /opt/ansible/osism/roles
@@ -56,40 +61,43 @@ RUN yum -y install cyrus-sasl-devel \
   xmlsec1-openssl-devel
 
 RUN virtualenv -p python3 /var/lib/awx/venv/ceph \
-    && /var/lib/awx/venv/ceph/bin/pip install -r /var/lib/awx/venv/requirements.txt \
-    && /var/lib/awx/venv/ceph/bin/pip install -r /opt/ansible/ceph/requirements.txt
+    && /var/lib/awx/venv/ceph/bin/pip install --no-cache-dir -r /var/lib/awx/venv/requirements.txt \
+    && /var/lib/awx/venv/ceph/bin/pip install --no-cache-dir -r /opt/ansible/ceph/requirements.txt
 
 RUN virtualenv -p python3 /var/lib/awx/venv/kolla \
-    && /var/lib/awx/venv/kolla/bin/pip install -r /var/lib/awx/venv/requirements.txt \
-    && /var/lib/awx/venv/kolla/bin/pip install -r /opt/ansible/kolla/requirements.txt
+    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /var/lib/awx/venv/requirements.txt \
+    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /opt/ansible/kolla/requirements.txt
+
+RUN if [[ "$RELEASE_OPENSTACK" == "master" ]]; then git clone https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
+    && if [[ "$RELEASE_OPENSTACK" != "master" ]]; then git clone -b stable/$RELEASE_OPENSTACK https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
+    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /repository-kolla-ansible/requirements.txt \
+    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir /repository-kolla-ansible \
+    && rm -rf /repository/kolla-ansible
 
 RUN virtualenv -p python3 /var/lib/awx/venv/osism \
-    && /var/lib/awx/venv/osism/bin/pip install -r /var/lib/awx/venv/requirements.txt \
-    && /var/lib/awx/venv/osism/bin/pip install -r /opt/ansible/osism/requirements.txt
+    && /var/lib/awx/venv/osism/bin/pip install --no-cache-dir -r /var/lib/awx/venv/requirements.txt \
+    && /var/lib/awx/venv/osism/bin/pip install --no-cache-dir -r /opt/ansible/osism/requirements.txt
 
 RUN mv /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig \
     && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
 
-RUN pip3 install 'ara[server]' \
+RUN pip3 install --no-cache-dir ansible-tower-cli 'ara[server]' \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
 
 RUN yum -y remove cyrus-sasl-devel \
-  gcc \
-  gcc-c++ \
-  krb5-devel \
-  libtool-ltdl-devel \
-  libxml2-devel \
-  libxslt-devel \
-  openldap-devel \
-  postgresql-devel \
-  python36-devel \
-  nodejs \
-  xmlsec1-devel \
-  xmlsec1-openssl-devel
-
-RUN yum -y clean all
-
-RUN pip3 install ansible-tower-cli
+      gcc \
+      gcc-c++ \
+      krb5-devel \
+      libtool-ltdl-devel \
+      libxml2-devel \
+      libxslt-devel \
+      openldap-devel \
+      postgresql-devel \
+      python36-devel \
+      nodejs \
+      xmlsec1-devel \
+      xmlsec1-openssl-devel \
+    && yum -y clean all
 
 USER 1000
 

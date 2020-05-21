@@ -16,8 +16,12 @@ set -x
 BUILD_OPTS=${BUILD_OPTS:-}
 CREATED=$(date --rfc-3339=ns)
 DOCKER_REGISTRY=${DOCKER_REGISTRY:-quay.io}
+RELEASE_CEPH=${RELEASE_CEPH:-luminous}
+RELEASE_OPENSTACK=${RELEASE_OPENSTACK:-train}
+REPOSITORY=${REPOSITORY:-osism/manager}
 REVISION=$(git rev-parse --short HEAD)
 VERSION=${VERSION:-latest}
+VERSION_AWX=${VERSION_AWX:-latest}
 
 if [[ -n $TRAVIS_TAG ]]; then
     VERSION=${TRAVIS_TAG:1}
