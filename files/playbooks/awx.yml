@@ -64,7 +64,7 @@
       shell: |
         cat <<EOF > /tmp/cred.yaml
         ---
-        username: cred
+        username: dragon
         ssh_key_data: |
         $(awk '{printf "      %s\n", $0}' < /ansible/secrets/id_rsa.operator)
         EOF
