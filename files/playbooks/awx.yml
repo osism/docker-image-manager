@@ -22,7 +22,7 @@
         name: default
         organization: default
 
-    - Create configuration project
+    - name: Create configuration project
       tower_project:
         name: configuration
         organization: default
