@@ -22,8 +22,25 @@
         name: default
         organization: default
 
-    - name: Import inventory
-      shell:  awx-manage inventory_import --inventory-name default --overwrite --overwrite-vars --source /opt/configuration/inventory/hosts
+    - Create configuration project
+      tower_project:
+        name: configuration
+        organization: default
+        scm_type: git
+        scm_url: file:///opt/configuration
+        scm_update_on_launch: true
+        custom_virtualenv: /var/lib/awx/venv/osism
+
+    - name: Add source to default inventory
+      tower_inventory_source:
+        inventory: default
+        name: configuration
+        overwrite: true
+        overwrite_vars: true
+        source: scm
+        source_project: configuration
+        source_path: /inventory/hosts
+        update_on_project_update: true
 
     - name: Create projects
       tower_project:
