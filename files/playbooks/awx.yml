@@ -57,13 +57,6 @@
         - name: kolla
           virtualenv: kolla
 
-    - name: Create vault credential
-      tower_credential:
-        name: vault
-        organization: default
-        kind: vault
-        vault_password: password
-
     - name: Create ssh credential
       tower_credential:
         name: ssh
