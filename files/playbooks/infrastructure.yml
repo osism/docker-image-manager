@@ -1,0 +1,3 @@
+---
+- name: "Run infrastructure playbook {{ playbook }}"
+  import_playbook: "/opt/ansible/infrastructure/infrastructure-{{ playbook }}.yml"

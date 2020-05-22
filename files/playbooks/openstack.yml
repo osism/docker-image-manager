@@ -1,0 +1,3 @@
+---
+- name: "Run openstack playbook {{ playbook }}"
+  import_playbook: "/opt/ansible/openstack/playbook-{{ playbook }}.yml"

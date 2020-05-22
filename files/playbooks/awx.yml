@@ -110,10 +110,18 @@
       with_items:
         - name: ceph
           virtualenv: ceph
-        - name: osism
+        - name: custom
+          virtualenv: osism
+        - name: generic
+          virtualenv: osism
+        - name: infrastructure
           virtualenv: osism
         - name: kolla
           virtualenv: kolla
+        - name: monitoring
+          virtualenv: osism
+        - name: openstack
+          virtualenv: osism
 
     # NOTE: it is not possible to set the used username with the tower_credential module
     #
@@ -143,13 +151,25 @@
       with_items:
         - name: ceph
           project: ceph
-          survey: ceph
-        - name: osism
-          project: osism
-          survey: osism
+          survey: playbook
+        - name: custom
+          project: custom
+          survey: playbook
+        - name: generic
+          project: generic
+          survey: playbook
+        - name: infrastructure
+          project: infrastructure
+          survey: playbook
         - name: kolla
           project: kolla
           survey: kolla
+        - name: monitoring
+          project: monitoring
+          survey: playbook
+        - name: openstack
+          project: openstack
+          survey: playbook
 
     - name: Create ceph job templates
       tower_job_template:

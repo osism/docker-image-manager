@@ -1,0 +1,74 @@
+[
+  {
+    "asset_type": "workflow",
+    "name": "Testbed - Kolla",
+    "organization": "default",
+    "inventory": 1,
+    "asset_relation": {
+      "survey_spec": {},
+      "workflow_nodes": [
+        {
+          "name": "node0",
+          "extra_data": {
+            "kolla_action": "deploy"
+          },
+          "identifier": "0a3ec9db-ba3f-4e99-8d32-49e567e54555",
+          "unified_job_type": "job",
+          "unified_job_name": "Kolla - common",
+          "success_nodes": [
+            "node2"
+          ],
+          "failure_nodes": [],
+          "always_nodes": []
+        },
+        {
+          "name": "node1",
+          "identifier": "e98c8299-a39f-4ab9-904c-f6790937d790",
+          "unified_job_type": "project_update",
+          "unified_job_name": "configuration",
+          "success_nodes": [
+            "node0"
+          ],
+          "failure_nodes": [],
+          "always_nodes": []
+        },
+        {
+          "name": "node2",
+          "extra_data": {
+            "kolla_action": "deploy"
+          },
+          "identifier": "7c712195-64f4-486d-bede-ba7c24a14dbb",
+          "unified_job_type": "job",
+          "unified_job_name": "Kolla - haproxy",
+          "success_nodes": [],
+          "failure_nodes": [],
+          "always_nodes": []
+        }
+      ],
+      "schedules": [],
+      "labels": [],
+      "roles": [
+        {
+          "name": "Admin",
+          "user": [],
+          "team": []
+        },
+        {
+          "name": "Execute",
+          "user": [],
+          "team": []
+        },
+        {
+          "name": "Read",
+          "user": [],
+          "team": []
+        },
+        {
+          "name": "Approve",
+          "user": [],
+          "team": []
+        }
+      ]
+    }
+  }
+]

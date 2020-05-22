@@ -6,12 +6,12 @@
       "question_name": "Playbook to run",
       "question_description": "",
       "required": true,
-      "type": "multiplechoice",
+      "type": "text",
       "variable": "playbook",
-      "min": null,
-      "max": null,
-      "default": "mons",
-      "choices": "mons\nmgrs\nosds\nmdss",
+      "min": 0,
+      "max": 1024,
+      "default": "",
+      "choices": "",
       "new_question": true
     }
   ]

@@ -1,3 +1,0 @@
----
-- name: "Run osism playbook {{ playbook }} in environment {{ env }}"
-  import_playbook: "/opt/ansible/osism/{{ env }}-{{ playbook }}.yml"

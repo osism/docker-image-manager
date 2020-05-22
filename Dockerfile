@@ -15,7 +15,7 @@ ARG RELEASE_OPENSTACK
 USER root
 
 ADD files/playbooks/ceph.yml /opt/ansible/ceph/awx.yml
-ADD files/playbooks/osism.yml /opt/ansible/osism/awx.yml
+ADD files/playbooks/default.yml /opt/ansible/default.yml
 ADD files/playbooks/kolla.yml /opt/ansible/kolla/awx.yml
 
 ADD files/playbooks/awx.yml /opt/ansible/awx.yml
@@ -60,10 +60,35 @@ RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/ceph/gr
 
 RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/osism/group_vars/all/yyy-configuration.yml \
     && ln -s /opt/configuration/environments/images.yml /opt/ansible/osism/group_vars/all/yyy-images.yml \
-    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/osism/group_vars/all/yyy-secrets.yml \
-    && ln -s /opt/configuration/environments/generic/configuration.yml /opt/ansible/osism/group_vars/all/zzz-configuration.yml \
-    && ln -s /opt/configuration/environments/generic/images.yml /opt/ansible/osism/group_vars/all/zzz-images.yml \
-    && ln -s /opt/configuration/environments/generic/secrets.yml /opt/ansible/osism/group_vars/all/zzz-secrets.yml
+    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/osism/group_vars/all/yyy-secrets.yml
+
+RUN for environment in generic infrastructure monitoring; do \
+      cp -r /opt/ansible/osism /opt/ansible/$environment; \
+    done
+
+RUN for environment in generic infrastructure monitoring; do \
+      ln -s /opt/configuration/environments/$environment/configuration.yml /opt/ansible/$environment/group_vars/all/zzz-configuration.yml; \
+      ln -s /opt/configuration/environments/$environment/images.yml /opt/ansible/$environment/group_vars/all/zzz-images.yml; \
+      ln -s /opt/configuration/environments/$environment/secrets.yml /opt/ansible/$environment/group_vars/all/zzz-secrets.yml; \
+    done
+
+ADD files/playbooks/generic.yml /opt/ansible/generic/awx.yml
+ADD files/playbooks/infrastructure.yml /opt/ansible/infrastructure/awx.yml
+ADD files/playbooks/monitoring.yml /opt/ansible/monitoring/awx.yml
+
+RUN for environment in custom openstack; do \
+      mkdir /opt/ansible/$environment; \
+      mkdir -p /opt/overlay/$environment/group_vars/all; \
+      ln -s /opt/configuration/environments/$environment/configuration.yml /opt/overlay/$environment/group_vars/all/zzz-configuration.yml; \
+      ln -s /opt/configuration/environments/$environment/images.yml /opt/overlay/$environment/group_vars/all/zzz-images.yml; \
+      ln -s /opt/configuration/environments/$environment/secrets.yml /opt/overlay/$environment/group_vars/all/zzz-secrets.yml; \
+      ln -s /opt/configuration/environments/configuration.yml /opt/overlay/$environment/group_vars/all/yyy-configuration.yml; \
+      ln -s /opt/configuration/environments/images.yml /opt/overlay/$environment/group_vars/all/yyy-images.yml; \
+      ln -s /opt/configuration/environments/secrets.yml /opt/overlay/$environment/group_vars/all/yyy-secrets.yml; \
+    done
+
+ADD files/playbooks/custom.yml /opt/overlay/custom/awx.yml
+ADD files/playbooks/openstack.yml /opt/overlay/openstack/awx.yml
 
 RUN chown -R 1000:1000 /opt/ansible
 

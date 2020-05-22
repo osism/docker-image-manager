@@ -1,0 +1,3 @@
+---
+- name: "Run monitoring playbook {{ playbook }}"
+  import_playbook: "/opt/ansible/monitoring/monitoring-{{ playbook }}.yml"
