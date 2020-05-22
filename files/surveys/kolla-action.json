@@ -11,7 +11,7 @@
       "min": null,
       "max": null,
       "default": "deploy",
-      "choices": "deploy\ndeploy-containers\nupgrade\nprecheck\npull\nreconfigure\nrefresh",
+      "choices": "deploy\ndeploy-containers\nnone\nupgrade\nprecheck\npull\nreconfigure\nrefresh",
       "new_question": true
     }
   ]

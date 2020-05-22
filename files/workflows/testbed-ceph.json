@@ -1,7 +1,7 @@
 [
   {
     "asset_type": "workflow",
-    "name": "Testbed - Ceph",
+    "name": "Workflow - Testbed - Ceph",
     "organization": "default",
     "inventory": 1,
     "asset_relation": {
@@ -67,7 +67,9 @@
           "identifier": "dc6e3b81-8bea-4351-9c98-f2f1ec4dd6b1",
           "unified_job_type": "job",
           "unified_job_name": "Ceph - rgws",
-          "success_nodes": [],
+          "success_nodes": [
+            "node7"
+          ],
           "failure_nodes": [],
           "always_nodes": []
         },
@@ -78,6 +80,43 @@
           "unified_job_name": "Ceph - facts",
           "success_nodes": [
             "node0"
+          ],
+          "failure_nodes": [],
+          "always_nodes": []
+        },
+        {
+          "name": "node7",
+          "extra_data": {
+            "playbook": "fetch-ceph-keys"
+          },
+          "identifier": "f6d26793-3f3e-4cc7-849e-9909322d99de",
+          "unified_job_type": "job",
+          "unified_job_name": "CUSTOM",
+          "success_nodes": [
+            "node9"
+          ],
+          "failure_nodes": [],
+          "always_nodes": []
+        },
+        {
+          "name": "node8",
+          "extra_data": {
+            "playbook": "bootstrap-ceph-dashboard"
+          },
+          "identifier": "94a32062-94ce-49dc-9b97-5ddeec6877d9",
+          "unified_job_type": "job",
+          "unified_job_name": "CUSTOM",
+          "success_nodes": [],
+          "failure_nodes": [],
+          "always_nodes": []
+        },
+        {
+          "name": "node9",
+          "identifier": "54e25aa4-871b-4f4c-933c-2a6aae8f167e",
+          "unified_job_type": "job",
+          "unified_job_name": "Infrastructure - cephclient",
+          "success_nodes": [
+            "node8"
           ],
           "failure_nodes": [],
           "always_nodes": []

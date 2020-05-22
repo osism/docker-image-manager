@@ -1,7 +1,7 @@
 [
   {
     "asset_type": "workflow",
-    "name": "Testbed - Kolla",
+    "name": "Workflow - Testbed - Kolla - Base",
     "organization": "default",
     "inventory": 1,
     "asset_relation": {

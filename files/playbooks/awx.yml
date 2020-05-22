@@ -4,6 +4,10 @@
   gather_facts: false
 
   vars:
+    workflows:
+      - testbed-ceph
+      - testbed-kolla-base
+
     ceph_roles:
       - clients
       - dashboard
@@ -19,6 +23,11 @@
       - restapis
       - rgws
       - rolling_update
+
+    infrastructure_roles:
+      - helper
+      - openstackclient
+      - cephclient
 
     kolla_roles:
       - aodh
@@ -182,6 +191,17 @@
         fact_caching_enabled: true
       loop: "{{ ceph_roles }}"
 
+    - name: Create infrastructure job templates
+      tower_job_template:
+        name: "Infrastructure - {{ item }}"
+        project: infrastructure
+        inventory: default
+        job_type: run
+        playbook: "infrastructure-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ infrastructure_roles }}"
+
     - name: Create kolla job templates
       tower_job_template:
         name: "Kolla - {{ item }}"
@@ -194,3 +214,8 @@
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
       loop: "{{ kolla_roles }}"
+
+    - name: Create workflow templates
+      shell: |
+        tower-cli send /var/lib/awx/workflows/{{ item }}.json
+      loop: "{{ workflows }}"

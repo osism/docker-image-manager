@@ -21,6 +21,7 @@ ADD files/playbooks/kolla.yml /opt/ansible/kolla/awx.yml
 ADD files/playbooks/awx.yml /opt/ansible/awx.yml
 
 ADD files/surveys /var/lib/awx/surveys
+ADD files/workflows /var/lib/awx/workflows
 
 ADD files/requirements.txt /var/lib/awx/venv/requirements.txt
 ADD files/run.sh /run.sh
