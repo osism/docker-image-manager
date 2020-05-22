@@ -4,3 +4,4 @@ paramiko
 redis
 requests
 psutil
+netaddr
