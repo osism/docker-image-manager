@@ -24,10 +24,34 @@
       - rgws
       - rolling_update
 
+    generic_roles:
+      - chrony
+      - cockpit
+      - common
+      - configuration
+      - docker
+      - facts
+      - grub
+      - hardening
+      - hostname
+      - hosts
+      - network
+      - operator
+      - proxy
+      - python
+      - python3
+      - repository
+      - resolvconf
+      - sosreport
+      - timezone
+      - utilities
+
     infrastructure_roles:
-      - helper
-      - openstackclient
       - cephclient
+      - cobbler
+      - helper
+      - netdata
+      - openstackclient
 
     kolla_roles:
       - aodh
@@ -190,6 +214,17 @@
         credential: operator
         fact_caching_enabled: true
       loop: "{{ ceph_roles }}"
+
+    - name: Create generic job templates
+      tower_job_template:
+        name: "Generic - {{ item }}"
+        project: generic
+        inventory: default
+        job_type: run
+        playbook: "generic-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ generic_roles }}"
 
     - name: Create infrastructure job templates
       tower_job_template:
