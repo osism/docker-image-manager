@@ -14,6 +14,9 @@ ARG RELEASE_OPENSTACK
 
 USER root
 
+ADD files/logo-osism.png /home/awx/logo-osism.png
+ADD files/set-custom-logo.py /home/awx/set-custom-logo.py
+
 ADD files/playbooks/ceph.yml /opt/ansible/ceph/awx.yml
 ADD files/playbooks/default.yml /opt/ansible/default.yml
 ADD files/playbooks/kolla.yml /opt/ansible/kolla/awx.yml
@@ -130,6 +133,10 @@ RUN mv /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig \
 
 RUN pip3 install --no-cache-dir ansible-tower-cli 'ara[server]' redis \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
+
+RUN git clone https://github.com/ansible/awx \
+    && pip3 install awx/awxkit \
+    && rm -rf awx
 
 RUN yum -y remove cyrus-sasl-devel \
       gcc \
