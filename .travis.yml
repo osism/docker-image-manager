@@ -9,7 +9,7 @@ env:
   global:
     - REPOSITORY=osism/manager
   matrix:
-    - VERSION=nautilus-train VERSION_AWX=latest RELEASE_CEPH=nautilus RELEASE_OPENSTACK=train
+    - VERSION=nautilus-train VERSION_AWX=latest RELEASE_CEPH=nautilus RELEASE_OPENSTACK=train RELEASE_OSISM=latest
 
 script:
   - bash scripts/build.sh
