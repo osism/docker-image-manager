@@ -118,8 +118,8 @@ RUN virtualenv -p python3 /var/lib/awx/venv/kolla \
     && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /var/lib/awx/venv/requirements.txt \
     && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /opt/ansible/kolla/requirements.txt
 
-RUN if [[ "$RELEASE_OPENSTACK" == "master" ]]; then git clone https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
-    && if [[ "$RELEASE_OPENSTACK" != "master" ]]; then git clone -b stable/$RELEASE_OPENSTACK https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
+RUN if [[ "$RELEASE_OPENSTACK" == "latest" ]]; then git clone https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
+    && if [[ "$RELEASE_OPENSTACK" != "latest" ]]; then git clone -b stable/$RELEASE_OPENSTACK https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
     && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /repository-kolla-ansible/requirements.txt \
     && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir /repository-kolla-ansible \
     && rm -rf /repository/kolla-ansible
