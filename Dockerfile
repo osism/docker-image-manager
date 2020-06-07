@@ -39,14 +39,15 @@ COPY --from=ceph-ansible /requirements.txt /opt/ansible/ceph/requirements.txt
 COPY --from=kolla-ansible /ansible/ /opt/ansible/kolla/
 COPY --from=kolla-ansible /requirements.txt /opt/ansible/kolla/requirements.txt
 
+COPY --from=osism-ansible /usr/share/ansible/roles /usr/share/ansible/roles
+COPY --from=osism-ansible /usr/share/ansible/collections /usr/share/ansible/collections
 COPY --from=osism-ansible /ansible/ /opt/ansible/osism/
 COPY --from=osism-ansible /requirements.txt /opt/ansible/osism/requirements.txt
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN mv /opt/ansible/ceph/galaxy/* /opt/ansible/ceph/roles \
-    && mv /opt/ansible/kolla/galaxy/* /opt/ansible/kolla/roles \
-    && mv /opt/ansible/osism/galaxy/* /opt/ansible/osism/roles
+    && mv /opt/ansible/kolla/galaxy/* /opt/ansible/kolla/roles
 
 RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/kolla/group_vars/all/yyy-configuration.yml \
     && ln -s /opt/configuration/environments/images.yml /opt/ansible/kolla/group_vars/all/yyy-images.yml \
