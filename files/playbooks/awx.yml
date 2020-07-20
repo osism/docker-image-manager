@@ -114,7 +114,7 @@
       register: result
       until: result.status == 200
       retries: 60
-      delay: 1
+      delay: 10
 
     - name: Create default organization
       tower_organization:
