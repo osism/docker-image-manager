@@ -51,6 +51,16 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN mv /opt/ansible/ceph/galaxy/* /opt/ansible/ceph/roles \
     && mv /opt/ansible/kolla/galaxy/* /opt/ansible/kolla/roles
 
+RUN for environment in osism kolla ceph; do \
+      rm -f /opt/ansible/$environment/ara.env; \
+      rm -f /opt/ansible/$environment/requirements*.yml; \
+      rm -rf /opt/ansible/$environment/cache; \
+      rm -rf /opt/ansible/$environment/collections; \
+      rm -rf /opt/ansible/$environment/galaxy; \
+      rm -rf /opt/ansible/$environment/logs; \
+      rm -rf /opt/ansible/$environment/secrets; \
+    done
+
 RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/kolla/group_vars/all/yyy-configuration.yml \
     && ln -s /opt/configuration/environments/images.yml /opt/ansible/kolla/group_vars/all/yyy-images.yml \
     && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/kolla/group_vars/all/yyy-secrets.yml \
@@ -72,6 +82,10 @@ RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/osism/g
 RUN for environment in generic infrastructure monitoring; do \
       cp -r /opt/ansible/osism /opt/ansible/$environment; \
     done
+
+RUN rm -f /opt/ansible/generic/infrastructure-*.yml /opt/ansible/generic/manager-*.yml /opt/ansible/generic/monitoring-*.yml \
+    && rm -f /opt/ansible/infrastructure/generic-*.yml /opt/ansible/infrastructure/manager-*.yml /opt/ansible/infrastructure/monitoring-*.yml \
+    && rm -f /opt/ansible/monitoring/generic-*.yml /opt/ansible/monitoring/manager-*.yml /opt/ansible/monitoring/infrastructure-*.yml
 
 RUN for environment in generic infrastructure monitoring; do \
       ln -s /opt/configuration/environments/$environment/configuration.yml /opt/ansible/$environment/group_vars/all/zzz-configuration.yml; \
