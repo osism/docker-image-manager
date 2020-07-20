@@ -25,11 +25,13 @@
       - rolling_update
 
     generic_roles:
+      - auditd
       - chrony
       - cockpit
       - common
       - configuration
       - docker
+      - docker-compose
       - facts
       - grub
       - hardening
@@ -37,12 +39,16 @@
       - hosts
       - network
       - operator
+      - osquery
+      - patchman-client
       - proxy
       - python
       - python3
       - repository
       - resolvconf
+      - rsyslog
       - sosreport
+      - sysdig
       - timezone
       - utilities
 
@@ -50,8 +56,14 @@
       - cephclient
       - cobbler
       - helper
-      - netdata
       - openstackclient
+      - patchman
+      - pulp
+
+    monitoring_roles:
+      - netdata
+      - zabbix
+      - zabbix-agent
 
     kolla_roles:
       - aodh
@@ -236,6 +248,17 @@
         credential: operator
         fact_caching_enabled: true
       loop: "{{ infrastructure_roles }}"
+
+    - name: Create monitoring job templates
+      tower_job_template:
+        name: "Monitoring - {{ item }}"
+        project: monitoring
+        inventory: default
+        job_type: run
+        playbook: "monitoring-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ monitoring_roles }}"
 
     - name: Create kolla job templates
       tower_job_template:
