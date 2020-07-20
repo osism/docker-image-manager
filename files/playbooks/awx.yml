@@ -3,6 +3,9 @@
   connection: local
   gather_facts: false
 
+  collections:
+    - awx.awx
+
   vars:
     workflows:
       - testbed-ceph

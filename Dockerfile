@@ -31,6 +31,8 @@ ADD files/run.sh /run.sh
 ADD files/initialize.sh /initialize.sh
 ADD files/supervisor_initialize.conf /supervisor_initialize.conf
 
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+
 RUN mkdir -p /opt/ansible
 
 COPY --from=ceph-ansible /ansible/ /opt/ansible/ceph/
@@ -97,6 +99,8 @@ ADD files/playbooks/openstack.yml /opt/overlay/openstack/awx.yml
 
 RUN chown -R 1000:1000 /opt/ansible
 
+RUN chmod +x /wait
+
 RUN yum -y install cyrus-sasl-devel \
   gcc \
   gcc-c++ \
@@ -157,4 +161,4 @@ RUN yum -y remove cyrus-sasl-devel \
 USER 1000
 
 VOLUME ["/opt/configuration"]
-CMD /run.sh
+CMD ["sh", "-c", "/wait && /run.sh"]
