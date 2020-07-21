@@ -7,9 +7,8 @@
     - awx.awx
 
   vars:
-    workflows:
-      - testbed-ceph
-      - testbed-kolla-base
+    applications:
+      - prometheus
 
     ceph_roles:
       - clients
@@ -372,3 +371,10 @@
         state: present
         unified_job_template: "Generic - facts"
         rrule: "{{ query('awx.awx.tower_schedule_rrule', 'hour', timezone='UTC', every=3) }}"
+
+    - name: Create applications
+      shell: "awx application create --name {{ item }} --client_type public --authorization_grant_type password --organization default"
+      loop: "{{ applications }}"
+      register: result
+      failed_when: result.rc >= 2
+      changed_when: result.rc == 0
