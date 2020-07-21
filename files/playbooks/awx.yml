@@ -365,8 +365,3 @@
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
       loop: "{{ kolla_roles }}"
-
-    - name: Create workflow templates
-      shell: |
-        awx-cli send /var/lib/awx/workflows/{{ item }}.json
-      loop: "{{ workflows }}"
