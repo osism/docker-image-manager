@@ -391,6 +391,31 @@
       failed_when: result.rc >= 2
       changed_when: result.rc == 0
 
+    - name: Create 'NetBox API Token' credential type
+      tower_credential_type:
+        name: "NetBox API Token"
+        description: Credential type for NetBox API token
+        kind: cloud
+        inputs: |
+          {
+             "fields":[
+                {
+                   "id":"token",
+                   "label":"NetBox API Token",
+                   "secret": true,
+                   "type":"string"
+                }
+             ]
+          }
+        injectors: !unsafe |
+          {
+             "env": {
+               "NETBOX_TOKEN": "{{ token }}"
+             }
+          }
+        state: present
+        validate_certs: false
+
     - name: Create 'AWX API Token' credential type
       tower_credential_type:
         name: "AWX API Token"
