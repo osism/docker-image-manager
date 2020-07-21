@@ -410,3 +410,32 @@
           }
         state: present
         validate_certs: false
+
+    # NOTE: This is a workaround because tokens are always regenerated and
+    #       cannot be checked if they already exist. If the credential
+    #       already exists then the token it contains also exists
+
+    - name: Get status of 'Prometheus Access Token' credential
+      command: awx credential get 'Prometheus Access Token'
+      changed_when: false
+      failed_when: result.rc != 0 and result.rc != 2
+      register: result
+
+    - name: Create 'Prometheus Access' token
+      tower_token:
+        application: prometheus
+        description: Prometheus Access Token
+        scope: "read"
+        state: present
+      when: result.rc == 2
+
+    - name: Create 'Prometheus Access Token' credential
+      tower_credential:
+        name: Prometheus Access Token
+        organization: default
+        state: present
+        credential_type: AWX API Token
+        inputs:
+          token: "{{ tower_token.token }}"
+          refresh_token: "{{ tower_token.refresh_token }}"
+      when: result.rc == 2
