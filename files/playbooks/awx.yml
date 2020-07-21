@@ -439,3 +439,34 @@
           token: "{{ tower_token.token }}"
           refresh_token: "{{ tower_token.refresh_token }}"
       when: result.rc == 2
+
+    # NOTE: Own definition for the prometheus role because the Prometheus Access
+    #       Token credential is needed.
+
+    - name: Create kolla job template 'prometheus' - type run
+      tower_job_template:
+        name: "Kolla - prometheus"
+        project: kolla
+        inventory: default
+        job_type: run
+        playbook: "kolla-prometheus.yml"
+        credentials:
+          - operator
+          - Prometheus Access Token
+        fact_caching_enabled: true
+        survey_enabled: true
+        survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
+
+    - name: Create kolla job templates 'prometheus' - type check
+      tower_job_template:
+        name: "Kolla - prometheus - Check"
+        project: kolla
+        inventory: default
+        job_type: check
+        playbook: "kolla-prometheus.yml"
+        credentials:
+          - operator
+          - Prometheus Access Token
+        fact_caching_enabled: true
+        survey_enabled: true
+        survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
