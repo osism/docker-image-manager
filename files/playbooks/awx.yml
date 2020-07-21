@@ -184,7 +184,7 @@
         tower-cli credential create --name="operator" --credential-type="Machine" --organization="default" --inputs=@/tmp/cred.yaml
         rm -f /tmp/cred.yaml
 
-    - name: Create generic job templates
+    - name: Create generic job templates - type run
       tower_job_template:
         name: "{{ item.name|upper }}"
         project: "{{ item.project }}"
@@ -218,7 +218,41 @@
           project: openstack
           survey: playbook
 
-    - name: Create ceph job templates
+    - name: Create generic job templates - type check
+      tower_job_template:
+        name: "{{ item.name|upper }}"
+        project: "{{ item.project }}"
+        inventory: default
+        job_type: check
+        playbook: awx.yml
+        credential: operator
+        fact_caching_enabled: true
+        survey_enabled: true
+        survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
+      with_items:
+        - name: ceph
+          project: ceph
+          survey: playbook
+        - name: custom
+          project: custom
+          survey: playbook
+        - name: generic
+          project: generic
+          survey: playbook
+        - name: infrastructure
+          project: infrastructure
+          survey: playbook
+        - name: kolla
+          project: kolla
+          survey: kolla
+        - name: monitoring
+          project: monitoring
+          survey: playbook
+        - name: openstack
+          project: openstack
+          survey: playbook
+
+    - name: Create ceph job templates - type run
       tower_job_template:
         name: "Ceph - {{ item }}"
         project: ceph
@@ -229,7 +263,18 @@
         fact_caching_enabled: true
       loop: "{{ ceph_roles }}"
 
-    - name: Create generic job templates
+    - name: Create ceph job templates - type check
+      tower_job_template:
+        name: "Ceph - {{ item }} - Check"
+        project: ceph
+        inventory: default
+        job_type: check
+        playbook: "ceph-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ ceph_roles }}"
+
+    - name: Create generic job templates - type run
       tower_job_template:
         name: "Generic - {{ item }}"
         project: generic
@@ -240,7 +285,18 @@
         fact_caching_enabled: true
       loop: "{{ generic_roles }}"
 
-    - name: Create infrastructure job templates
+    - name: Create generic job templates - type check
+      tower_job_template:
+        name: "Generic - {{ item }} - Check"
+        project: generic
+        inventory: default
+        job_type: check
+        playbook: "generic-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ generic_roles }}"
+
+    - name: Create infrastructure job templates - type run
       tower_job_template:
         name: "Infrastructure - {{ item }}"
         project: infrastructure
@@ -251,7 +307,18 @@
         fact_caching_enabled: true
       loop: "{{ infrastructure_roles }}"
 
-    - name: Create monitoring job templates
+    - name: Create infrastructure job templates - type check
+      tower_job_template:
+        name: "Infrastructure - {{ item }} - Check"
+        project: infrastructure
+        inventory: default
+        job_type: check
+        playbook: "infrastructure-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ infrastructure_roles }}"
+
+    - name: Create monitoring job templates - type run
       tower_job_template:
         name: "Monitoring - {{ item }}"
         project: monitoring
@@ -262,12 +329,36 @@
         fact_caching_enabled: true
       loop: "{{ monitoring_roles }}"
 
-    - name: Create kolla job templates
+    - name: Create monitoring job templates - type check
+      tower_job_template:
+        name: "Monitoring - {{ item }} - Check"
+        project: monitoring
+        inventory: default
+        job_type: check
+        playbook: "monitoring-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+      loop: "{{ monitoring_roles }}"
+
+    - name: Create kolla job templates - type run
       tower_job_template:
         name: "Kolla - {{ item }}"
         project: kolla
         inventory: default
         job_type: run
+        playbook: "kolla-{{ item }}.yml"
+        credential: operator
+        fact_caching_enabled: true
+        survey_enabled: true
+        survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
+      loop: "{{ kolla_roles }}"
+
+    - name: Create kolla job templates - type check
+      tower_job_template:
+        name: "Kolla - {{ item }} - Check"
+        project: kolla
+        inventory: default
+        job_type: check
         playbook: "kolla-{{ item }}.yml"
         credential: operator
         fact_caching_enabled: true
