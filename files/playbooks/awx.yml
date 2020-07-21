@@ -190,7 +190,8 @@
         inventory: default
         job_type: run
         playbook: awx.yml
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
@@ -224,7 +225,8 @@
         inventory: default
         job_type: check
         playbook: awx.yml
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
@@ -258,7 +260,8 @@
         inventory: default
         job_type: run
         playbook: "ceph-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ ceph_roles }}"
 
@@ -269,7 +272,8 @@
         inventory: default
         job_type: check
         playbook: "ceph-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ ceph_roles }}"
 
@@ -280,7 +284,8 @@
         inventory: default
         job_type: run
         playbook: "generic-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ generic_roles }}"
 
@@ -291,7 +296,8 @@
         inventory: default
         job_type: check
         playbook: "generic-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ generic_roles }}"
 
@@ -302,7 +308,8 @@
         inventory: default
         job_type: run
         playbook: "infrastructure-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ infrastructure_roles }}"
 
@@ -313,7 +320,8 @@
         inventory: default
         job_type: check
         playbook: "infrastructure-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ infrastructure_roles }}"
 
@@ -324,7 +332,8 @@
         inventory: default
         job_type: run
         playbook: "monitoring-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ monitoring_roles }}"
 
@@ -335,7 +344,8 @@
         inventory: default
         job_type: check
         playbook: "monitoring-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
       loop: "{{ monitoring_roles }}"
 
@@ -346,7 +356,8 @@
         inventory: default
         job_type: run
         playbook: "kolla-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
@@ -359,7 +370,8 @@
         inventory: default
         job_type: check
         playbook: "kolla-{{ item }}.yml"
-        credential: operator
+        credentials:
+          - operator
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
