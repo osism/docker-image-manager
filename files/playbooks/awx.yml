@@ -378,3 +378,35 @@
       register: result
       failed_when: result.rc >= 2
       changed_when: result.rc == 0
+
+    - name: Create 'AWX API Token' credential type
+      tower_credential_type:
+        name: "AWX API Token"
+        description: Credential type for AWX API token
+        kind: cloud
+        inputs: |
+          {
+             "fields":[
+                {
+                   "id":"token",
+                   "label":"AWX API Token",
+                   "secret": true,
+                   "type":"string"
+                },
+                {
+                   "id":"refresh_token",
+                   "label":"AWX API Refresh Token",
+                   "secret": true,
+                   "type":"string"
+                }
+             ]
+          }
+        injectors: !unsafe |
+          {
+             "extra_vars":{
+                "awx_token":"{{ token }}",
+                "awx_refresh_token":"{{ refresh_token }}"
+             }
+          }
+        state: present
+        validate_certs: false
