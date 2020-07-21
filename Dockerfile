@@ -150,7 +150,7 @@ RUN virtualenv -p python3 /var/lib/awx/venv/osism \
 RUN mv /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig \
     && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
 
-RUN pip3 install --no-cache-dir ansible-tower-cli 'ara[server]' redis \
+RUN pip3 install --no-cache-dir 'ara[server]' redis \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
 
 RUN git clone https://github.com/ansible/awx \
