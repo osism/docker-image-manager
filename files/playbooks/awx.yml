@@ -220,7 +220,7 @@
 
     - name: Create generic job templates - type check
       tower_job_template:
-        name: "{{ item.name|upper }}"
+        name: "{{ item.name|upper }} - Check"
         project: "{{ item.project }}"
         inventory: default
         job_type: check
