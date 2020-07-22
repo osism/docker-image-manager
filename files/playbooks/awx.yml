@@ -7,6 +7,8 @@
     - awx.awx
 
   vars:
+    operator_user: dragon
+
     applications:
       - prometheus
 
@@ -176,7 +178,8 @@
       shell: |
         cat <<EOF > /tmp/cred.yaml
         ---
-        username: dragon
+        become_method: sudo
+        username: {{ operator_user }}
         ssh_key_data: |
         $(awk '{printf "      %s\n", $0}' < /ansible/secrets/id_rsa.operator)
         EOF
