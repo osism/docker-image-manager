@@ -47,10 +47,11 @@ if [[ $HOSTNAME == "awx" ]]; then
   awx-manage provision_instance --hostname=$(hostname)
   awx-manage register_queue --queuename=tower --instance_percent=100
 
+  cat /supervisor_initialize.conf | tee -a /supervisor_task.conf
+
 else
 
   awx-manage collectstatic --noinput --clear
-  cat /supervisor_initialize.conf | tee -a /supervisor.conf
 
 fi
 
