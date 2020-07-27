@@ -145,7 +145,7 @@
         overwrite_vars: true
         source: scm
         source_project: configuration
-        source_path: inventory/hosts
+        source_path: inventory
         update_on_project_update: true
 
     - name: Create projects
