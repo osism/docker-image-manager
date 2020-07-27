@@ -112,7 +112,7 @@
   tasks:
     - name: Wait for the AWX API
       uri:
-        url: "http://awxweb:8052/api/v2/"
+        url: "http://awx_web:8052/api/v2/"
         status_code: 200
       register: result
       until: result.status == 200
