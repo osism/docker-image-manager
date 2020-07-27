@@ -8,7 +8,7 @@
 
 ANSIBLE_REMOTE_TEMP=/tmp ANSIBLE_LOCAL_TEMP=/tmp ansible-playbook -i "127.0.0.1," -c local /opt/ansible/awx.yml
 
-awx setting modify AWX_ANSIBLE_CALLBACK_PLUGINS '["/usr/local/lib/python3.6/site-packages/ara/plugins/callback"]'
-awx setting modify TOWER_URL_BASE http://$AWX_SERVER_HOST:$AWX_SERVER_PORT
+awx --conf.host http://awx-web:8052 setting modify AWX_ANSIBLE_CALLBACK_PLUGINS '["/usr/local/lib/python3.6/site-packages/ara/plugins/callback"]'
+awx --conf.host http://awx-web:8052 setting modify TOWER_URL_BASE http://$AWX_SERVER_HOST:$AWX_SERVER_PORT
 
 python3 /home/awx/set-custom-logo.py

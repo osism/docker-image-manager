@@ -9,7 +9,7 @@ from awxkit.utils import PseudoNamespace as ns
 # set config
 config.credentials = ns({'default': {'username': os.environ.get('AWX_ADMIN_USER'),
                                      'password': os.environ.get('AWX_ADMIN_PASSWORD')}})
-config.base_url = 'http://127.0.0.1:8052'
+config.base_url = 'http://awx-web:8052'
 
 # load logofile
 logofile = open("/home/awx/logo-osism.png", "rb")
