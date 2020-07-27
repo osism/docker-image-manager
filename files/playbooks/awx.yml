@@ -110,14 +110,27 @@
       - zun
 
   tasks:
-    - name: Wait for the AWX API
+    - name: Wait for AWX API availability
       uri:
-        url: "http://awx-web:8052/api/v2/"
+        url: http://awx-web:8052/api/v2/ping/
         status_code: 200
       register: result
       until: result.status == 200
       retries: 60
       delay: 10
+
+    - name: Wait for AWX API usability
+      uri:
+        url: http://awx-web:8052/api/v2/instances/
+        user: "{{ lookup('file','/run/secrets/TOWER_USERNAME') }}"
+        password: "{{ lookup('file','/run/secrets/TOWER_PASSWORD') }}"
+        force_basic_auth: yes
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 10
+      no_log: true
 
     - name: Create default organization
       tower_organization:
