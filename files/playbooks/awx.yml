@@ -183,7 +183,7 @@
         ssh_key_data: |
         $(awk '{printf "      %s\n", $0}' < /ansible/secrets/id_rsa.operator)
         EOF
-        awx credential create --name="operator" --credential-type="Machine" --organization="default" --inputs=@/tmp/cred.yaml
+        awx credential create --name="operator" --credential_type="Machine" --organization="default" --inputs=@/tmp/cred.yaml
         rm -f /tmp/cred.yaml
 
     - name: Create generic job templates - type run
