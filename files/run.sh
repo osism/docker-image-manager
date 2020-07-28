@@ -46,7 +46,8 @@ if [[ $HOSTNAME == "awx" ]]; then
   awx-manage provision_instance --hostname=$(hostname)
   awx-manage register_queue --queuename=tower --instance_percent=100
 
-  cat /supervisor_initialize.conf | tee -a /supervisor_task.conf
+  $(awx login -f human)
+  cat /supervisor_initialize.conf | sed "s/##TOWER_OAUTH_TOKEN##/${TOWER_OAUTH_TOKEN}/g" | tee -a /supervisor_task.conf
 
 else
 
