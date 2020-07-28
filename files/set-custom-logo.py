@@ -4,11 +4,9 @@ import base64
 import os
 
 from awxkit import api, config
-from awxkit.utils import PseudoNamespace as ns
 
 # set config
-config.credentials = ns({'default': {'username': os.environ.get('AWX_ADMIN_USER'),
-                                     'password': os.environ.get('AWX_ADMIN_PASSWORD')}})
+config.token = os.environ.get('TOWER_OAUTH_TOKEN')
 config.base_url = 'http://awx-web:8052'
 
 # load logofile
