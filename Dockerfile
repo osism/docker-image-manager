@@ -7,7 +7,7 @@ FROM quay.io/osism/ceph-ansible:$RELEASE_CEPH as ceph-ansible
 FROM quay.io/osism/kolla-ansible:$RELEASE_OPENSTACK as kolla-ansible
 FROM quay.io/osism/osism-ansible:$RELEASE_OSISM as osism-ansible
 
-FROM ansible/awx_web:$VERSION_AWX
+FROM ansible/awx:$VERSION_AWX
 
 ARG RELEASE_CEPH
 ARG RELEASE_OPENSTACK
