@@ -47,7 +47,7 @@ if [[ $HOSTNAME == "awx" ]]; then
   awx-manage register_queue --queuename=tower --instance_percent=100
 
   $(awx --conf.host http://awx-web:8052 login -f human)
-  cat /supervisor_initialize.conf | sed "s/##TOWER_OAUTH_TOKEN##/${TOWER_OAUTH_TOKEN}/g" | tee -a /supervisor_task.conf
+  cat /etc/supervisor_initialize.conf | sed "s/##TOWER_OAUTH_TOKEN##/${TOWER_OAUTH_TOKEN}/g" | tee -a /etc/supervisord_task.conf
 
 else
 
@@ -59,10 +59,10 @@ unset $(cut -d = -f -1 /etc/tower/conf.d/environment.sh)
 
 if [[ $HOSTNAME == "awx" ]]; then
 
-  exec supervisord -c /supervisor_task.conf
+  exec supervisord -c /etc/supervisord_task.conf
 
 else
 
-  exec supervisord -c /supervisor.conf
+  exec supervisord -c /etc/supervisord.conf
 
 fi

@@ -28,7 +28,7 @@ ADD files/surveys /var/lib/awx/surveys
 ADD files/requirements.txt /var/lib/awx/venv/requirements.txt
 ADD files/run.sh /run.sh
 ADD files/initialize.sh /initialize.sh
-ADD files/supervisor_initialize.conf /supervisor_initialize.conf
+ADD files/supervisor_initialize.conf /etc/supervisor_initialize.conf
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 
