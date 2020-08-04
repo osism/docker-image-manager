@@ -45,6 +45,10 @@ COPY --from=osism-ansible /usr/share/ansible/collections /usr/share/ansible/coll
 COPY --from=osism-ansible /ansible/ /opt/ansible/osism/
 COPY --from=osism-ansible /requirements.txt /opt/ansible/osism/requirements.txt
 
+COPY --from=osism-ansible /opt/tests /opt/tests
+COPY --from=osism-ansible /opt/validations /opt/validations
+COPY --from=osism-ansible /opt/netbox-devicetype-library /opt/netbox-devicetype-library
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN mv /opt/ansible/ceph/galaxy/* /opt/ansible/ceph/roles \
