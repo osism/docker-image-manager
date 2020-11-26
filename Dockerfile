@@ -14,6 +14,9 @@ ARG RELEASE_OPENSTACK
 
 USER root
 
+RUN yum -y upgrade \
+    && yum clean all
+
 ADD files/logo-osism.png /home/awx/logo-osism.png
 ADD files/set-custom-logo.py /home/awx/set-custom-logo.py
 
