@@ -50,12 +50,12 @@ jobs:
           CEPH_VERSION: ${{ matrix.ceph_version }}
           DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
           OPENSTACK_VERSION: ${{ matrix.openstack_version }}
-          REPOSITORY: osism/kolla-ansible
-#      - run: |
-#          scripts/push.sh
-#        env:
-#          CEPH_VERSION: ${{ matrix.ceph_version }}
-#          DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
-#          OPENSTACK_VERSION: ${{ matrix.openstack_version }}
-#          REPOSITORY: osism/kolla-ansible
-#        if: github.ref == 'refs/heads/master'
+          REPOSITORY: osism/manager
+      - run: |
+          scripts/push.sh
+        env:
+          CEPH_VERSION: ${{ matrix.ceph_version }}
+          DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+          OPENSTACK_VERSION: ${{ matrix.openstack_version }}
+          REPOSITORY: osism/manager
+        if: github.ref == 'refs/heads/master'
