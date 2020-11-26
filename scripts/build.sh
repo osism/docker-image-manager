@@ -44,6 +44,5 @@ docker build \
     --label "org.opencontainers.image.url=https://www.osism.de" \
     --label "org.opencontainers.image.vendor=Betacloud Solutions GmbH" \
     --label "org.opencontainers.image.version=$VERSION" \
-    --squash \
     --no-cache \
     $BUILD_OPTS .
