@@ -1,7 +1,7 @@
-ara[server]
-cryptography
-paramiko
-redis
-requests
-psutil
-netaddr
+ara[server]==1.5.3
+cryptography==3.3.1
+paramiko==2.7.2
+redis==3.5.3
+requests==2.25.1
+psutil==5.8.0
+netaddr==0.8.0

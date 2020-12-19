@@ -129,7 +129,7 @@
         url: http://awx-web:8052/api/v2/instances/
         user: "{{ lookup('file','/run/secrets/TOWER_USERNAME') }}"
         password: "{{ lookup('file','/run/secrets/TOWER_PASSWORD') }}"
-        force_basic_auth: yes
+        force_basic_auth: true
         status_code: 200
       register: result
       until: result.status == 200
