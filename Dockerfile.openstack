@@ -15,9 +15,6 @@ USER root
 RUN yum -y upgrade \
     && yum -y clean all
 
-COPY files/logo-osism.png /home/awx/logo-osism.png
-COPY files/set-custom-logo.py /home/awx/set-custom-logo.py
-
 COPY files/playbooks/default.yml /opt/ansible/default.yml
 COPY files/playbooks/kolla.yml /opt/ansible/kolla/awx.yml
 
