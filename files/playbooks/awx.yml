@@ -38,47 +38,72 @@
       - chrony
       - cockpit
       - common
+      - configfs
       - configuration
       - docker
       - docker-compose
+      - dotfiles
       - facts
+      - falco
+      - firewall
       - grub
       - hardening
+      - hddtemp
       - hostname
       - hosts
+      - kernel-modules
+      - lynics
+      - microcode
+      - motd
       - network
       - operator
       - osquery
+      - packages
       - patchman-client
+      - ping
+      - podman
       - proxy
       - python
       - python3
       - repository
       - resolvconf
+      - rng
       - rsyslog
+      - services
+      - smartd
       - sosreport
+      - sysctl
       - sysdig
+      - systohc
       - timezone
+      - trivy
+      - upgrade-packages
       - utilities
 
     infrastructure_roles:
+      - admin
       - cephclient
       - helper
+      - keycloak
+      - netbox
       - openstackclient
       - patchman
+      - phpmyadmin
       - pulp
+      - ucs
 
     monitoring_roles:
       - netdata
+      - openstack-health-monitor
       - zabbix
       - zabbix-agent
 
     kolla_roles:
       - aodh
       - barbican
+      - bifrost
       - ceilometer
       - cinder
-      - cloudkitty
       - common
       - designate
       - elasticsearch
@@ -108,7 +133,6 @@
       - panko
       - placement
       - rabbitmq
-      - rally
       - redis
       - skydive
       - watcher
