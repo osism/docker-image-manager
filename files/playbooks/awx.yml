@@ -81,7 +81,7 @@
       - utilities
 
     infrastructure_roles:
-      - admin
+      - adminer
       - cephclient
       - helper
       - keycloak
@@ -170,25 +170,24 @@
         name: default
         organization: default
 
-    - name: Create configuration project
+    - name: Create local inventory project
       tower_project:
-        name: configuration
+        name: local-inventory
         organization: default
         scm_type: git
-        scm_url: file:///opt/configuration
-        scm_update_on_launch: true
+        scm_url: file:///inventory
         custom_virtualenv: /var/lib/awx/venv/osism
 
     - name: Add source to default inventory
       tower_inventory_source:
         inventory: default
-        name: configuration
+        name: local-inventory
         overwrite: true
         overwrite_vars: true
         source: scm
-        source_project: configuration
+        source_project: local-inventory
         source_path: inventory
-        update_on_project_update: true
+        update_on_launch: false
 
     - name: Create projects
       tower_project:
@@ -340,7 +339,7 @@
 
     - name: Create ceph job templates - type run
       tower_job_template:
-        name: "Ceph - {{ item }}"
+        name: "ceph - {{ item }}"
         project: ceph
         inventory: default
         job_type: run
@@ -353,7 +352,7 @@
 
     - name: Create ceph job templates - type check
       tower_job_template:
-        name: "Ceph - {{ item }} - Check"
+        name: "ceph - {{ item }} - Check"
         project: ceph
         inventory: default
         job_type: check
@@ -366,7 +365,7 @@
 
     - name: Create generic job templates - type run
       tower_job_template:
-        name: "Generic - {{ item }}"
+        name: "generic - {{ item }}"
         project: generic
         inventory: default
         job_type: run
@@ -378,7 +377,7 @@
 
     - name: Create generic job templates - type check
       tower_job_template:
-        name: "Generic - {{ item }} - Check"
+        name: "generic - {{ item }} - Check"
         project: generic
         inventory: default
         job_type: check
@@ -390,7 +389,7 @@
 
     - name: Create infrastructure job templates - type run
       tower_job_template:
-        name: "Infrastructure - {{ item }}"
+        name: "infrastructure - {{ item }}"
         project: infrastructure
         inventory: default
         job_type: run
@@ -402,7 +401,7 @@
 
     - name: Create infrastructure job templates - type check
       tower_job_template:
-        name: "Infrastructure - {{ item }} - Check"
+        name: "infrastructure - {{ item }} - Check"
         project: infrastructure
         inventory: default
         job_type: check
@@ -414,7 +413,7 @@
 
     - name: Create monitoring job templates - type run
       tower_job_template:
-        name: "Monitoring - {{ item }}"
+        name: "monitoring - {{ item }}"
         project: monitoring
         inventory: default
         job_type: run
@@ -426,7 +425,7 @@
 
     - name: Create monitoring job templates - type check
       tower_job_template:
-        name: "Monitoring - {{ item }} - Check"
+        name: "monitoring - {{ item }} - Check"
         project: monitoring
         inventory: default
         job_type: check
@@ -438,7 +437,7 @@
 
     - name: Create kolla job templates - type run
       tower_job_template:
-        name: "Kolla - {{ item }}"
+        name: "kolla - {{ item }}"
         project: kolla
         inventory: default
         job_type: run
@@ -452,7 +451,7 @@
 
     - name: Create kolla job templates - type check
       tower_job_template:
-        name: "Kolla - {{ item }} - Check"
+        name: "kolla - {{ item }} - Check"
         project: kolla
         inventory: default
         job_type: check
@@ -464,11 +463,11 @@
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
       loop: "{{ kolla_roles }}"
 
-    - name: Create 'Sync facts' schedule
+    - name: Create 'Gather facts' schedule
       tower_schedule:
-        name: "Sync facts"
+        name: "Gather facts"
         state: present
-        unified_job_template: "Generic - facts"
+        unified_job_template: "generic - facts"
         rrule: "{{ query('awx.awx.tower_schedule_rrule', 'hour', timezone='UTC', every=3) }}"
 
     - name: Create applications
@@ -569,7 +568,7 @@
 
     - name: Create kolla job template 'prometheus' - type run
       tower_job_template:
-        name: "Kolla - prometheus"
+        name: "kolla - prometheus"
         project: kolla
         inventory: default
         job_type: run
@@ -583,7 +582,7 @@
 
     - name: Create kolla job templates 'prometheus' - type check
       tower_job_template:
-        name: "Kolla - prometheus - Check"
+        name: "kolla - prometheus - Check"
         project: kolla
         inventory: default
         job_type: check

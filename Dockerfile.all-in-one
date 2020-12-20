@@ -29,10 +29,12 @@ COPY files/requirements.txt /var/lib/awx/venv/requirements.txt
 COPY files/run.sh /run.sh
 COPY files/initialize.sh /initialize.sh
 COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
+COPY files/rsync.sh /rsync.sh
+COPY files/supervisor_crond.conf /etc/supervisor_crond.conf
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 
-RUN mkdir -p /opt/ansible/inventory
+RUN mkdir -p /opt/ansible /opt/inventory
 
 COPY --from=ceph-ansible /ansible/ /opt/ansible/ceph/
 COPY --from=ceph-ansible /requirements.txt /opt/ansible/ceph/requirements.txt
@@ -114,24 +116,20 @@ RUN for environment in custom openstack; do \
 COPY files/playbooks/custom.yml /opt/overlay/custom/awx.yml
 COPY files/playbooks/openstack.yml /opt/overlay/openstack/awx.yml
 
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-ceph /opt/ansible/inventory/50-ceph
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-infrastruture /opt/ansible/inventory/50-infrastruture
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-kolla /opt/ansible/inventory/50-kolla
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-monitoring /opt/ansible/inventory/50-monitoring
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-openstack /opt/ansible/inventory/50-openstack
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/51-ceph /opt/ansible/inventory/51-ceph
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/51-kolla /opt/ansible/inventory/51-kolla
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/60-generic /opt/ansible/inventory/60-generic
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-ceph /opt/inventory/50-ceph
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-infrastruture /opt/inventory/50-infrastruture
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-kolla /opt/inventory/50-kolla
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-monitoring /opt/inventory/50-monitoring
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-openstack /opt/inventory/50-openstack
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/51-ceph /opt/inventory/51-ceph
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/51-kolla /opt/inventory/51-kolla
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/60-generic /opt/inventory/60-generic
 
-RUN ln -s /opt/configuration/inventory/10-custom /opt/ansible/inventory/10-custom \
-    && ln -s /opt/configuration/inventory/20-roles /opt/ansible/inventory/20-roles \
-    && ln -s /opt/configuration/inventory/group_vars /opt/ansible/inventory/group_vars \
-    && ln -s /opt/configuration/inventory/host_vars /opt/ansible/inventory/host_vars
-
-RUN chown -R 1000:1000 /opt/ansible \
+RUN chown -R 1000:1000 /opt/ansible /opt/inventory \
     && chmod +x /wait
 
 RUN yum -y install \
+      cronie \
       cyrus-sasl-devel \
       gcc \
       gcc-c++ \
@@ -171,6 +169,8 @@ RUN mv /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig \
 RUN pip3 install --no-cache-dir 'ara[server]==1.5.3' 'redis==3.5.3' 'awxkit==16.0.0' \
     && pip3 install --no-cache-dir -U 'python-dateutil==2.8.1' \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
+
+COPY files/crontab /etc/crontab
 
 RUN yum -y remove \
       cyrus-sasl-devel \
