@@ -105,6 +105,7 @@ ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-inf
 ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-kolla /opt/inventory/50-kolla
 ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-monitoring /opt/inventory/50-monitoring
 ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-openstack /opt/inventory/50-openstack
+ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/51-kolla /opt/inventory/51-kolla
 ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/60-generic /opt/inventory/60-generic
 
 RUN chown -R 1000:1000 /opt/ansible /opt/inventory \
