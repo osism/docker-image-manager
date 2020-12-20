@@ -290,7 +290,7 @@
 
     - name: Create generic job templates - type check
       tower_job_template:
-        name: "{{ item.name|upper }} - Check"
+        name: "{{ item.name|upper }} - check"
         project: "{{ item.project }}"
         inventory: default
         job_type: check
@@ -323,7 +323,7 @@
 
     - name: Create optional generic job templates - type check
       tower_job_template:
-        name: "{{ item.name|upper }} - Check"
+        name: "{{ item.name|upper }} - check"
         project: "{{ item.project }}"
         inventory: default
         job_type: check
@@ -356,7 +356,7 @@
 
     - name: Create ceph job templates - type check
       tower_job_template:
-        name: "ceph - {{ item }} - Check"
+        name: "ceph - {{ item }} - check"
         project: ceph
         inventory: default
         job_type: check
@@ -383,7 +383,7 @@
 
     - name: Create generic job templates - type check
       tower_job_template:
-        name: "generic - {{ item }} - Check"
+        name: "generic - {{ item }} - check"
         project: generic
         inventory: default
         job_type: check
@@ -409,7 +409,7 @@
 
     - name: Create infrastructure job templates - type check
       tower_job_template:
-        name: "infrastructure - {{ item }} - Check"
+        name: "infrastructure - {{ item }} - check"
         project: infrastructure
         inventory: default
         job_type: check
@@ -435,7 +435,7 @@
 
     - name: Create monitoring job templates - type check
       tower_job_template:
-        name: "monitoring - {{ item }} - Check"
+        name: "monitoring - {{ item }} - check"
         project: monitoring
         inventory: default
         job_type: check
@@ -463,7 +463,7 @@
 
     - name: Create kolla job templates - type check
       tower_job_template:
-        name: "kolla - {{ item }} - Check"
+        name: "kolla - {{ item }} - check"
         project: kolla
         inventory: default
         job_type: check
@@ -596,7 +596,7 @@
 
     - name: Create kolla job templates 'prometheus' - type check
       tower_job_template:
-        name: "kolla - prometheus - Check"
+        name: "kolla - prometheus - check"
         project: kolla
         inventory: default
         job_type: check
