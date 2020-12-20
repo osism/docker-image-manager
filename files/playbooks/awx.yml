@@ -36,6 +36,7 @@
     generic_roles:
       - auditd
       - chrony
+      - cleanup
       - cockpit
       - configfs
       - configuration
