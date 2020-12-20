@@ -36,7 +36,7 @@ if [[ $HOSTNAME == "awx" ]]; then
 
     if [ $result == "False" ]; then
 
-      echo "from django.contrib.auth.models import User; User.objects.create_superuser('$AWX_ADMIN_USER', 'root@localhost', '$AWX_ADMIN_PASSWORD')" | awx-manage shell
+      echo "from django.contrib.auth.models import User; User.objects.create_superuser('$AWX_ADMIN_USER', '$AWX_ADMIN_MAILADDRESS', '$AWX_ADMIN_PASSWORD')" | awx-manage shell
 
     fi
 
