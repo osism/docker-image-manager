@@ -52,7 +52,7 @@
       - hostname
       - hosts
       - kernel-modules
-      - lynics
+      - lynis
       - microcode
       - motd
       - network
