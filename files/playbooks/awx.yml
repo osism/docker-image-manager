@@ -248,6 +248,7 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
+        ask_extra_vars: true
       with_items:
         - name: custom
           project: custom
@@ -280,6 +281,7 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
+        ask_extra_vars: true
       with_items:
         - name: ceph
           project: ceph
@@ -298,6 +300,7 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
+        ask_extra_vars: true
       with_items:
         - name: custom
           project: custom
@@ -330,6 +333,7 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/' + item.survey + '.json') }}"
+        ask_extra_vars: true
       with_items:
         - name: ceph
           project: ceph
@@ -346,6 +350,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ ceph_roles }}"
       when: ceph|bool
 
@@ -359,6 +364,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ ceph_roles }}"
       when: ceph|bool
 
@@ -372,6 +378,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ generic_roles }}"
 
     - name: Create generic job templates - type check
@@ -384,6 +391,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ generic_roles }}"
 
     - name: Create infrastructure job templates - type run
@@ -396,6 +404,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ infrastructure_roles }}"
 
     - name: Create infrastructure job templates - type check
@@ -408,6 +417,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ infrastructure_roles }}"
 
     - name: Create monitoring job templates - type run
@@ -420,6 +430,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ monitoring_roles }}"
 
     - name: Create monitoring job templates - type check
@@ -432,6 +443,7 @@
         credentials:
           - operator
         fact_caching_enabled: true
+        ask_extra_vars: true
       loop: "{{ monitoring_roles }}"
 
     - name: Create kolla job templates - type run
@@ -446,6 +458,7 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
+        ask_extra_vars: true
       loop: "{{ kolla_roles }}"
 
     - name: Create kolla job templates - type check
@@ -460,6 +473,7 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
+        ask_extra_vars: true
       loop: "{{ kolla_roles }}"
 
     - name: Create 'Gather facts' schedule
@@ -578,6 +592,7 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
+        ask_extra_vars: true
 
     - name: Create kolla job templates 'prometheus' - type check
       tower_job_template:
@@ -592,3 +607,4 @@
         fact_caching_enabled: true
         survey_enabled: true
         survey_spec: "{{ lookup('file', '/var/lib/awx/surveys/kolla-action.json') }}"
+        ask_extra_vars: true
