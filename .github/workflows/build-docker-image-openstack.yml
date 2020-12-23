@@ -3,7 +3,7 @@ name: Build docker image of type openstack
 
 "on":
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "15 8-22 * * *"
   push:
     paths:
       - .github/workflows/build-docker-image-openstack.yml
