@@ -50,6 +50,7 @@ COPY --from=kolla-ansible /requirements.txt /opt/ansible/kolla/requirements.txt
 COPY --from=osism-ansible /usr/share/ansible/roles /usr/share/ansible/roles
 COPY --from=osism-ansible /usr/share/ansible/collections /usr/share/ansible/collections
 COPY --from=osism-ansible /ansible/ /opt/ansible/osism/
+COPY --from=osism-ansible /ansible/workflows /opt/ansible/workflows
 COPY --from=osism-ansible /requirements.txt /opt/ansible/osism/requirements.txt
 
 COPY --from=osism-ansible /opt/tests /opt/tests
