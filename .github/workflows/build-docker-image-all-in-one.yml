@@ -27,6 +27,7 @@ jobs:
         awx-version:
           - 16.0.0
         ceph_version:
+          - luminous
           - nautilus
         openstack_version:
           - victoria
