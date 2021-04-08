@@ -149,7 +149,7 @@ RUN virtualenv -p python3 /var/lib/awx/venv/osism \
 RUN mv /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.orig \
     && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
 
-RUN pip3 install --no-cache-dir 'ara[server]==1.5.3' 'redis==3.5.3' 'awxkit==16.0.0' \
+RUN pip3 install --no-cache-dir 'ara[server]==1.5.5' 'redis==3.5.3' 'awxkit==16.0.0' \
     && pip3 install --no-cache-dir -U 'python-dateutil==2.8.1' \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
 
