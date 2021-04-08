@@ -1,4 +1,4 @@
-ara[server]==1.5.4
+ara[server]==1.5.5
 cryptography==3.4.7
 paramiko==2.7.2
 redis==3.5.3
