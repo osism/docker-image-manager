@@ -12,7 +12,7 @@ set -x
 # Set default values
 
 BUILD_TYPE=${BUILD_TYPE:-all-in-one}
-CEPH_VERSION=${CEPH_VERSION:-nautilus}
+CEPH_VERSION=${CEPH_VERSION:-octopus}
 DOCKER_REGISTRY=${DOCKER_REGISTRY:-quay.io}
 OPENSTACK_VERSION=${OPENSTACK_VERSION:-victoria}
 

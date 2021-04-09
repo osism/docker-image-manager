@@ -25,10 +25,8 @@ jobs:
     strategy:
       matrix:
         awx-version:
-          - 16.0.0
+          - 19.0.0
         ceph_version:
-          - luminous
-          - nautilus
           - octopus
         openstack_version:
           - victoria
