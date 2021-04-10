@@ -146,7 +146,7 @@ RUN yum -y install \
       libxslt-devel \
       openldap-devel \
       postgresql-devel \
-      python36-devel \
+      python38-devel \
       nodejs \
       xmlsec1-devel \
       xmlsec1-openssl-devel \
@@ -191,7 +191,7 @@ RUN yum -y remove \
       libxslt-devel \
       openldap-devel \
       postgresql-devel \
-      python36-devel \
+      python38-devel \
       nodejs \
       xmlsec1-devel \
       xmlsec1-openssl-devel \
