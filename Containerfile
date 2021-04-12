@@ -21,6 +21,10 @@ USER root
 RUN yum -y upgrade \
     && yum -y clean all
 
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 100 \
+    && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 10 \
+    && update-alternatives --auto python3
+
 COPY files/playbooks/ceph.yml /opt/ansible/ceph/awx.yml
 COPY files/playbooks/default.yml /opt/ansible/default.yml
 COPY files/playbooks/kolla.yml /opt/ansible/kolla/awx.yml
@@ -155,10 +159,10 @@ RUN yum -y install \
 RUN mkdir -p /etc/ansible \
     && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
 
-RUN pip3 install --no-cache-dir -U 'pip==21.0.1' \
-    && pip3 install --no-cache-dir 'setuptools-rust==0.12.1' \
-    && pip3 install --no-cache-dir 'ara[server]==1.5.5' 'redis==3.5.3' 'awxkit==18.0.0' 'ansible>=3.0.0,<4.0.0' \
-    && pip3 install --no-cache-dir -U 'python-dateutil==2.8.1' \
+RUN pip3.8 install --no-cache-dir -U 'pip==21.0.1' \
+    && pip3.8 install --no-cache-dir 'setuptools-rust==0.12.1' \
+    && pip3.8 install --no-cache-dir 'ara[server]==1.5.5' 'redis==3.5.3' 'awxkit==19.0.0' 'ansible>=3.0.0,<4.0.0' \
+    && pip3.8 install --no-cache-dir -U 'python-dateutil==2.8.1' \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
 
 COPY files/crontab /etc/crontab
