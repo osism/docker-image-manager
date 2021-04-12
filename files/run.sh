@@ -45,11 +45,9 @@ echo 'from django.conf import settings; x = settings.AWX_TASK_ENV; x["HOME"] = "
 awx-manage provision_instance --hostname=$(hostname)
 awx-manage register_queue --queuename=tower --instance_percent=100
 
-$(awx --conf.host http://awx:8052 login -f human)
-
 if [[ ! -e /tmp/.supervisor_initialized ]]; then
     cat /etc/supervisor_initialize.conf | sed "s/##TOWER_OAUTH_TOKEN##/${TOWER_OAUTH_TOKEN}/g" | tee -a /etc/supervisord.conf
-    cat /etc/supervisor_crond.conf | tee -a /etc/supervisord_task.conf
+    cat /etc/supervisor_crond.conf | tee -a /etc/supervisord.conf
     touch /tmp/.supervisor_initialized
 fi
 
