@@ -161,7 +161,7 @@ RUN mkdir -p /etc/ansible \
 
 RUN pip3.8 install --no-cache-dir -U 'pip==21.0.1' \
     && pip3.8 install --no-cache-dir 'setuptools-rust==0.12.1' \
-    && pip3.8 install --no-cache-dir 'ara[server]==1.5.5' 'redis==3.5.3' 'awxkit==19.0.0' 'ansible>=3.0.0,<4.0.0' \
+    && pip3.8 install --no-cache-dir 'ara[server]==1.5.5' 'redis==3.5.3' 'awxkit==19.0.0' 'ansible>=3.0.0,<4.0.0' 'supervisor==4.2.2' \
     && pip3.8 install --no-cache-dir -U 'python-dateutil==2.8.1' \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
 
