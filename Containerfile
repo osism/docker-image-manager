@@ -3,10 +3,12 @@ ARG AWX_VERSION
 ARG RELEASE_CEPH
 ARG RELEASE_OPENSTACK
 ARG RELEASE_OSISM
+ARG RELEASE_RECEPTOR=0.9.7
 
 FROM quay.io/osism/ceph-ansible:$RELEASE_CEPH as ceph-ansible
 FROM quay.io/osism/kolla-ansible:$RELEASE_OPENSTACK as kolla-ansible
 FROM quay.io/osism/osism-ansible:$RELEASE_OSISM as osism-ansible
+FROM quay.io/project-receptor/receptor:$RELEASE_RECEPTOR as receptor
 
 FROM quay.io/ansible/awx:$AWX_VERSION
 
@@ -35,16 +37,18 @@ ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-s
 ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-wait.yml /opt/ansible/awx-wait.yml
 ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-workflows.yml /opt/ansible/awx-workflows.yml
 
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+
 COPY files/surveys /var/lib/awx/surveys
 
 COPY files/initialize.sh /initialize.sh
 COPY files/requirements.txt /var/lib/awx/venv/requirements.txt
 COPY files/rsync.sh /rsync.sh
 COPY files/run.sh /run.sh
+COPY files/supervisor.conf /etc/supervisord.conf
 COPY files/supervisor_crond.conf /etc/supervisor_crond.conf
 COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
-
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+COPY files/receptor.conf /etc/receptor/receptor.conf
 
 RUN mkdir -p /opt/ansible /opt/inventory
 
@@ -182,6 +186,9 @@ RUN yum -y remove \
       xmlsec1-devel \
       xmlsec1-openssl-devel \
     && yum -y clean all
+
+COPY --from=receptor /usr/bin/receptor /usr/bin/receptor
+RUN mkdir -p /var/run/receptor
 
 USER 1000
 
