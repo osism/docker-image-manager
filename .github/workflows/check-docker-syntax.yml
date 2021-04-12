@@ -4,11 +4,11 @@ name: Check docker syntax
 "on":
   push:
     paths:
-      - Dockerfile*
+      - Containerfile*
       - .github/workflows/check-docker-syntax.yml
   pull_request:
     paths:
-      - Dockerfile*
+      - Containerfile*
       - .github/workflows/check-docker-syntax.yml
 
 jobs:
@@ -18,4 +18,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: brpaz/hadolint-action@v1.3.1
         with:
-          dockerfile: Dockerfile
+          dockerfile: Containerfile
