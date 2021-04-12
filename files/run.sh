@@ -41,6 +41,8 @@ if [[ $HOSTNAME == "awx" ]]; then
 
   fi
 
+  awx-manage create_preload_data
+
   echo 'from django.conf import settings; x = settings.AWX_TASK_ENV; x["HOME"] = "/var/lib/awx"; settings.AWX_TASK_ENV = x' | awx-manage shell
   awx-manage provision_instance --hostname=$(hostname)
   awx-manage register_queue --queuename=tower --instance_percent=100
