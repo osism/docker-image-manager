@@ -33,12 +33,12 @@ ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-w
 
 COPY files/surveys /var/lib/awx/surveys
 
-COPY files/requirements.txt /var/lib/awx/venv/requirements.txt
-COPY files/run.sh /run.sh
 COPY files/initialize.sh /initialize.sh
-COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
+COPY files/requirements.txt /var/lib/awx/venv/requirements.txt
 COPY files/rsync.sh /rsync.sh
+COPY files/run.sh /run.sh
 COPY files/supervisor_crond.conf /etc/supervisor_crond.conf
+COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 
@@ -151,24 +151,6 @@ RUN yum -y install \
       xmlsec1-devel \
       xmlsec1-openssl-devel \
     && yum -y clean all
-
-RUN virtualenv -p python3 /var/lib/awx/venv/ceph \
-    && /var/lib/awx/venv/ceph/bin/pip install --no-cache-dir -r /var/lib/awx/venv/requirements.txt \
-    && /var/lib/awx/venv/ceph/bin/pip install --no-cache-dir -r /opt/ansible/ceph/requirements.txt
-
-RUN virtualenv -p python3 /var/lib/awx/venv/kolla \
-    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /var/lib/awx/venv/requirements.txt \
-    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /opt/ansible/kolla/requirements.txt
-
-RUN if [[ "$RELEASE_OPENSTACK" == "latest" ]]; then git clone https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
-    && if [[ "$RELEASE_OPENSTACK" != "latest" ]]; then git clone -b stable/$RELEASE_OPENSTACK https://github.com/openstack/kolla-ansible /repository-kolla-ansible; fi \
-    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir -r /repository-kolla-ansible/requirements.txt \
-    && /var/lib/awx/venv/kolla/bin/pip install --no-cache-dir /repository-kolla-ansible \
-    && rm -rf /repository/kolla-ansible
-
-RUN virtualenv -p python3 /var/lib/awx/venv/osism \
-    && /var/lib/awx/venv/osism/bin/pip install --no-cache-dir -r /var/lib/awx/venv/requirements.txt \
-    && /var/lib/awx/venv/osism/bin/pip install --no-cache-dir -r /opt/ansible/osism/requirements.txt
 
 RUN mkdir -p /etc/ansible \
     && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
