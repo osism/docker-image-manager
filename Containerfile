@@ -152,10 +152,10 @@ RUN yum -y install \
       libtool-ltdl-devel \
       libxml2-devel \
       libxslt-devel \
+      nodejs \
       openldap-devel \
       postgresql-devel \
       python38-devel \
-      nodejs \
       xmlsec1-devel \
       xmlsec1-openssl-devel \
     && yum -y clean all
