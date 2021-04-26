@@ -22,11 +22,12 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 
+COPY files/initialize.sh /initialize.sh
+COPY files/receptor.conf /etc/receptor/receptor.conf
 COPY files/requirements.txt /requirements.txt
 COPY files/run.sh /run.sh
 COPY files/supervisor.conf /etc/supervisord.conf
 COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
-COPY files/receptor.conf /etc/receptor/receptor.conf
 
 RUN mkdir -p /opt/ansible
 
