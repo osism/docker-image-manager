@@ -1,3 +1,0 @@
----
-- name: "Run playbook {{ playbook }} in environment {{ env }}"
-  import_playbook: "/opt/configuration/{{ environment }}/playbook-{{ playbook }}.yml"

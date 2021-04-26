@@ -20,21 +20,8 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
     && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 10 \
     && update-alternatives --auto python3
 
-COPY files/playbooks/ceph.yml /opt/ansible/ceph/awx.yml
-COPY files/playbooks/default.yml /opt/ansible/default.yml
-COPY files/playbooks/kolla.yml /opt/ansible/kolla/awx.yml
-
-ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-bootstrap.yml /opt/ansible/awx-bootstrap.yml
-ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-schedules.yml /opt/ansible/awx-schedules.yml
-ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-smart-inventories.yml /opt/ansible/awx-smart-inventories.yml
-ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-wait.yml /opt/ansible/awx-wait.yml
-ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-workflows.yml /opt/ansible/awx-workflows.yml
-
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 
-COPY files/surveys /var/lib/awx/surveys
-
-COPY files/initialize.sh /initialize.sh
 COPY files/requirements.txt /requirements.txt
 COPY files/run.sh /run.sh
 COPY files/supervisor.conf /etc/supervisord.conf

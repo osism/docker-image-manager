@@ -1,3 +1,0 @@
----
-- name: "Run generic playbook {{ playbook }}"
-  import_playbook: "/opt/ansible/generic/generic-{{ playbook }}.yml"

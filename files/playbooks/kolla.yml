@@ -1,3 +1,0 @@
----
-- name: "Run kolla playbook {{ playbook }}"
-  import_playbook: "/opt/ansible/kolla/kolla-{{ playbook }}.yml"

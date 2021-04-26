@@ -1,3 +1,0 @@
----
-- name: "Run custom playbook {{ playbook }}"
-  import_playbook: "/opt/ansible/custom/playbook-{{ playbook }}.yml"
