@@ -76,7 +76,7 @@ RUN for environment in generic infrastructure monitoring; do \
     done
 
 RUN for environment in custom openstack; do \
-      mkdir /opt/ansible/$environment/group_vars/all; \
+      mkdir -p /opt/ansible/$environment/group_vars/all; \
       mkdir -p /opt/overlay/$environment/group_vars/all; \
       ln -s /opt/configuration/environments/$environment/configuration.yml /opt/overlay/$environment/group_vars/all/zzz-configuration.yml; \
       ln -s /opt/configuration/environments/$environment/images.yml /opt/overlay/$environment/group_vars/all/zzz-images.yml; \
