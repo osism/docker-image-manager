@@ -47,7 +47,6 @@ awx-manage register_queue --queuename=tower --instance_percent=100
 
 if [[ ! -e /tmp/.supervisor_initialized ]]; then
     cat /etc/supervisor_initialize.conf | sed "s/##TOWER_OAUTH_TOKEN##/${TOWER_OAUTH_TOKEN}/g" | tee -a /etc/supervisord.conf
-    cat /etc/supervisor_crond.conf | tee -a /etc/supervisord.conf
     touch /tmp/.supervisor_initialized
 fi
 
@@ -55,5 +54,4 @@ awx-manage collectstatic --noinput --clear
 
 unset $(cut -d = -f -1 /etc/tower/conf.d/environment.sh)
 
-bash -c /rsync.sh
 exec supervisord -c /etc/supervisord.conf

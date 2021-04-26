@@ -43,14 +43,12 @@ COPY files/surveys /var/lib/awx/surveys
 
 COPY files/initialize.sh /initialize.sh
 COPY files/requirements.txt /var/lib/awx/venv/requirements.txt
-COPY files/rsync.sh /rsync.sh
 COPY files/run.sh /run.sh
 COPY files/supervisor.conf /etc/supervisord.conf
-COPY files/supervisor_crond.conf /etc/supervisor_crond.conf
 COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
 COPY files/receptor.conf /etc/receptor/receptor.conf
 
-RUN mkdir -p /opt/ansible /opt/inventory
+RUN mkdir -p /opt/ansible
 
 COPY --from=ceph-ansible /ansible/ /opt/ansible/ceph/
 COPY --from=ceph-ansible /requirements.txt /opt/ansible/ceph/requirements.txt
@@ -131,20 +129,10 @@ RUN for environment in custom openstack; do \
 COPY files/playbooks/custom.yml /opt/overlay/custom/awx.yml
 COPY files/playbooks/openstack.yml /opt/overlay/openstack/awx.yml
 
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-ceph /opt/inventory/50-ceph
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-infrastruture /opt/inventory/50-infrastruture
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-kolla /opt/inventory/50-kolla
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-monitoring /opt/inventory/50-monitoring
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/50-openstack /opt/inventory/50-openstack
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/51-ceph /opt/inventory/51-ceph
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/51-kolla /opt/inventory/51-kolla
-ADD https://raw.githubusercontent.com/osism/cfg-generics/master/inventory/60-generic /opt/inventory/60-generic
-
-RUN chown -R 1000:1000 /opt/ansible /opt/inventory \
+RUN chown -R 1000:1000 /opt/ansible \
     && chmod +x /wait
 
 RUN yum -y install \
-      cronie \
       cyrus-sasl-devel \
       gcc \
       gcc-c++ \
@@ -168,8 +156,6 @@ RUN pip3.8 install --no-cache-dir -U 'pip==21.0.1' \
     && pip3.8 install --no-cache-dir 'ara[server]==1.5.5' 'redis==3.5.3' 'awxkit==19.0.0' 'ansible>=3.0.0,<4.0.0' 'supervisor==4.2.2' 'ansible-runner==1.4.7' \
     && pip3.8 install --no-cache-dir -U 'python-dateutil==2.8.1' \
     && python3 -m ara.setup.env > /opt/ansible/ara.env
-
-COPY files/crontab /etc/crontab
 
 RUN yum -y remove \
       cyrus-sasl-devel \
