@@ -5,10 +5,7 @@ set -x
 #
 # AWX_VRSION
 # BUILD_OPTS
-# CEPH_VERSION
 # DOCKER_REGISTRY
-# OPENSTACK_VERSION
-# RELEASE_OSISM
 # REPOSITORY
 # VERSION
 
@@ -16,11 +13,8 @@ set -x
 
 AWX_VERSION=${AWX_VERSION:-latest}
 BUILD_OPTS=${BUILD_OPTS:-}
-CEPH_VERSION=${CEPH_VERSION:-octopus}
 CREATED=$(date --rfc-3339=ns)
 DOCKER_REGISTRY=${DOCKER_REGISTRY:-quay.io}
-OPENSTACK_VERSION=${OPENSTACK_VERSION:-victoria}
-RELEASE_OSISM=${RELEASE_OSISM:-latest}
 REPOSITORY=${REPOSITORY:-osism/manager}
 REVISION=$(git rev-parse --short HEAD)
 VERSION=${VERSION:-latest}
@@ -32,9 +26,6 @@ fi
 docker buildx build \
     --load \
     --build-arg "AWX_VERSION=$AWX_VERSION" \
-    --build-arg "RELEASE_CEPH=$CEPH_VERSION" \
-    --build-arg "RELEASE_OPENSTACK=$OPENSTACK_VERSION" \
-    --build-arg "RELEASE_OSISM=$RELEASE_OSISM" \
     --tag "$REPOSITORY:$VERSION" \
     --label "org.opencontainers.image.created=$CREATED" \
     --label "org.opencontainers.image.documentation=https://docs.osism.de" \
