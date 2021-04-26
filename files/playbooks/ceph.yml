@@ -1,3 +1,0 @@
----
-- name: "Run ceph playbook {{ playbook }}"
-  import_playbook: "/opt/ansible/ceph/ceph-{{ playbook }}.yml"
