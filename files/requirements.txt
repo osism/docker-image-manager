@@ -1,7 +1,9 @@
-ara[server]==1.5.6
-cryptography==3.4.7
-paramiko==2.7.2
+ansible-runner==1.4.7
+ansible>=3.0.0,<4.0.0
+ara[server]==1.5.5
+awxkit==19.0.0
+pip==21.0.1
+python-dateutil==2.8.1
 redis==3.5.3
-requests==2.25.1
-psutil==5.8.0
-netaddr==0.8.0
+setuptools-rust==0.12.1
+supervisor==4.2.2
