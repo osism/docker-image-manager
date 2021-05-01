@@ -1,7 +1,7 @@
 ansible-runner==1.4.7
 ansible==3.3.0
 ara[server]==1.5.5
-awxkit==19.0.0
+awxkit==19.1.0
 pip==21.1.1
 python-dateutil==2.8.1
 redis==3.5.3
