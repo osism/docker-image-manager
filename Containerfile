@@ -32,6 +32,8 @@ COPY files/requirements.txt /requirements.txt
 COPY files/run.sh /run.sh
 COPY files/supervisor.conf /etc/supervisord.conf
 COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
+COPY files/update.sh /update.sh
+
 
 RUN mkdir -p /opt/ansible /configuration /configuration.pre
 
@@ -52,6 +54,7 @@ RUN chown -R 1000:1000 /opt/ansible /configuration /configuration.pre \
     && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
 
 RUN yum -y install \
+      cronie \
       cyrus-sasl-devel \
       gcc \
       gcc-c++ \
