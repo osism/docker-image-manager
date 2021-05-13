@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ -e /opt/configuration/environments/custom ]]; then
-    mount -t overlay overlay -o lowerdir=/opt/configuration/environments/custom:/opt/overlay/custom /opt/ansible/custom
-fi
-
-if [[ -e /opt/configuration/environments/openstack ]]; then
-    mount -t overlay overlay -o lowerdir=/opt/configuration/environments/openstack:/opt/overlay/openstack /opt/ansible/openstack
-fi
-
 if [[ $(id -u) -ge 500 ]]; then
 
     echo "awx:x:$(id -u):$(id -g):,,,:/var/lib/awx:/bin/bash" >> /tmp/passwd

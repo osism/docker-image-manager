@@ -5,6 +5,8 @@ FROM quay.io/project-receptor/receptor:$RELEASE_RECEPTOR as receptor
 
 FROM quay.io/ansible/awx:$AWX_VERSION
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ENV PYTHONUNBUFFERED=1
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
@@ -23,6 +25,7 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-wait.yml /opt/ansible/awx-wait.yml
 
+COPY files/crontab /etc/crontabs/root
 COPY files/initialize.sh /initialize.sh
 COPY files/receptor.conf /etc/receptor/receptor.conf
 COPY files/requirements.txt /requirements.txt
@@ -30,53 +33,23 @@ COPY files/run.sh /run.sh
 COPY files/supervisor.conf /etc/supervisord.conf
 COPY files/supervisor_initialize.conf /etc/supervisor_initialize.conf
 
-RUN mkdir -p /opt/ansible
+RUN mkdir -p /opt/ansible /configuration /configuration.pre
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-RUN mkdir -p \
-      /opt/ansible/ceph/group_vars/all \
-      /opt/ansible/kolla/group_vars/all \
-      /opt/ansible/osism/group_vars/all
-
-RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/kolla/group_vars/all/yyy-configuration.yml \
-    && ln -s /opt/configuration/environments/images.yml /opt/ansible/kolla/group_vars/all/yyy-images.yml \
-    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/kolla/group_vars/all/yyy-secrets.yml \
-    && ln -s /opt/configuration/environments/kolla/configuration.yml /opt/ansible/kolla/group_vars/all/zzz-configuration.yml \
-    && ln -s /opt/configuration/environments/kolla/images.yml /opt/ansible/kolla/group_vars/all/zzz-images.yml \
-    && ln -s /opt/configuration/environments/kolla/secrets.yml /opt/ansible/kolla/group_vars/all/zzz-secrets.yml
-
-RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/ceph/group_vars/all/yyy-configuration.yml \
-    && ln -s /opt/configuration/environments/images.yml /opt/ansible/ceph/group_vars/all/yyy-images.yml \
-    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/ceph/group_vars/all/yyy-secrets.yml \
-    && ln -s /opt/configuration/environments/ceph/configuration.yml /opt/ansible/ceph/group_vars/all/zzz-configuration.yml \
-    && ln -s /opt/configuration/environments/ceph/images.yml /opt/ansible/ceph/group_vars/all/zzz-images.yml \
-    && ln -s /opt/configuration/environments/ceph/secrets.yml /opt/ansible/ceph/group_vars/all/zzz-secrets.yml
-
-RUN ln -s /opt/configuration/environments/configuration.yml /opt/ansible/osism/group_vars/all/yyy-configuration.yml \
-    && ln -s /opt/configuration/environments/images.yml /opt/ansible/osism/group_vars/all/yyy-images.yml \
-    && ln -s /opt/configuration/environments/secrets.yml /opt/ansible/osism/group_vars/all/yyy-secrets.yml
-
-RUN for environment in generic infrastructure monitoring; do \
-      mkdir -p /opt/ansible/$environment/group_vars/all; \
-      ln -s /opt/configuration/environments/$environment/configuration.yml /opt/ansible/$environment/group_vars/all/zzz-configuration.yml; \
-      ln -s /opt/configuration/environments/$environment/images.yml /opt/ansible/$environment/group_vars/all/zzz-images.yml; \
-      ln -s /opt/configuration/environments/$environment/secrets.yml /opt/ansible/$environment/group_vars/all/zzz-secrets.yml; \
+RUN for environment in ceph kolla generic infrastructure monitoring custom openstack; do \
+      mkdir -p /configuration.pre/$environment/group_vars/all; \
+      ln -s /opt/configuration/environments/$environment/configuration.yml /configuration.pre/$environment/group_vars/all/zzz-configuration.yml; \
+      ln -s /opt/configuration/environments/$environment/images.yml /configuration.pre/$environment/group_vars/all/zzz-images.yml; \
+      ln -s /opt/configuration/environments/$environment/secrets.yml /configuration.pre/$environment/group_vars/all/zzz-secrets.yml; \
+      ln -s /opt/configuration/environments/configuration.yml /configuration.pre/$environment/group_vars/all/yyy-configuration.yml; \
+      ln -s /opt/configuration/environments/images.yml /configuration.pre/$environment/group_vars/all/yyy-images.yml; \
+      ln -s /opt/configuration/environments/secrets.yml /configuration.pre/$environment/group_vars/all/yyy-secrets.yml; \
+      ln -s /inventory /configuration.pre/$environment/inventory; \
     done
 
-RUN for environment in custom openstack; do \
-      mkdir -p /opt/ansible/$environment/group_vars/all; \
-      mkdir -p /opt/overlay/$environment/group_vars/all; \
-      ln -s /opt/configuration/environments/$environment/configuration.yml /opt/overlay/$environment/group_vars/all/zzz-configuration.yml; \
-      ln -s /opt/configuration/environments/$environment/images.yml /opt/overlay/$environment/group_vars/all/zzz-images.yml; \
-      ln -s /opt/configuration/environments/$environment/secrets.yml /opt/overlay/$environment/group_vars/all/zzz-secrets.yml; \
-      ln -s /opt/configuration/environments/configuration.yml /opt/overlay/$environment/group_vars/all/yyy-configuration.yml; \
-      ln -s /opt/configuration/environments/images.yml /opt/overlay/$environment/group_vars/all/yyy-images.yml; \
-      ln -s /opt/configuration/environments/secrets.yml /opt/overlay/$environment/group_vars/all/yyy-secrets.yml; \
-    done
-
-RUN chown -R 1000:1000 /opt/ansible \
-    && chmod +x /wait
+RUN chown -R 1000:1000 /opt/ansible /configuration /configuration.pre \
+    && chmod +x /wait \
+    && mkdir -p /etc/ansible \
+    && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
 
 RUN yum -y install \
       cyrus-sasl-devel \
@@ -92,15 +65,10 @@ RUN yum -y install \
       python38-devel \
       xmlsec1-devel \
       xmlsec1-openssl-devel \
-    && yum -y clean all
-
-RUN mkdir -p /etc/ansible \
-    && ln -s /opt/configuration/environments/ansible.cfg /etc/ansible/ansible.cfg
-
-RUN pip3.8 install --no-cache-dir -r /requirements.txt \
-    && python3 -m ara.setup.env > /opt/ansible/ara.env
-
-RUN yum -y remove \
+    && yum -y clean all \
+    && pip3.8 install --no-cache-dir -r /requirements.txt \
+    && python3 -m ara.setup.env > /opt/ansible/ara.env \
+    && yum -y remove \
       cyrus-sasl-devel \
       gcc \
       gcc-c++ \
@@ -118,5 +86,5 @@ RUN yum -y remove \
 
 USER 1000
 
-VOLUME ["/opt/configuration"]
+VOLUME ["/opt/configuration", "/configuration"]
 CMD ["sh", "-c", "/wait && /run.sh"]
