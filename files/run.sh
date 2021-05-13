@@ -10,6 +10,8 @@ fi
 
 source /etc/tower/conf.d/environment.sh
 
+bash /update.sh
+
 ANSIBLE_REMOTE_TEMP=/tmp ANSIBLE_LOCAL_TEMP=/tmp ansible -i "127.0.0.1," -c local -v -m wait_for -a "host=$DATABASE_HOST port=$DATABASE_PORT" all
 ANSIBLE_REMOTE_TEMP=/tmp ANSIBLE_LOCAL_TEMP=/tmp ansible -i "127.0.0.1," -c local -v -m wait_for -a "host=$REDIS_HOST port=$REDIS_PORT" all
 
