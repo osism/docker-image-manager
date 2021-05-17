@@ -22,7 +22,7 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 10
     && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 10 \
     && update-alternatives --auto python3
 
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
 ADD https://raw.githubusercontent.com/osism/osism-ansible/master/playbooks/awx-wait.yml /opt/ansible/awx-wait.yml
 
 COPY files/crontab /etc/crontabs/root
