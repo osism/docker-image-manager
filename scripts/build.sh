@@ -34,6 +34,6 @@ docker buildx build \
     --label "org.opencontainers.image.source=https://github.com/osism/container-image-manager" \
     --label "org.opencontainers.image.title=manager" \
     --label "org.opencontainers.image.url=https://www.osism.de" \
-    --label "org.opencontainers.image.vendor=Betacloud Solutions GmbH" \
+    --label "org.opencontainers.image.vendor=OSISM GmbH" \
     --label "org.opencontainers.image.version=$VERSION" \
     --file Dockerfile $BUILD_OPTS .
