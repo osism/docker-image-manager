@@ -1,5 +1,5 @@
 ansible-runner==2.0.1
-ansible==3.4.0
+ansible==4.2.0
 ara[server]==1.5.6
 awxkit==19.2.2
 pip==21.1.3
